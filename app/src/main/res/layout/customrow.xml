@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="12.0"
+        android:textSize="30sp"
+        android:id="@+id/listText"
+        android:padding="0dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignTop="@+id/textViewTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginStart="46dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Wien"
+        android:id="@+id/textViewLocation"
+        android:textSize="17sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:layout_marginTop="47dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/listText"
+        android:layout_alignStart="@+id/listText"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="20.10.2015"
+        android:id="@+id/textViewDatum"
+        android:textSize="16sp"
+        android:layout_alignBottom="@+id/textViewLocation"
+        android:layout_alignLeft="@+id/textViewTime"
+        android:layout_alignStart="@+id/textViewTime" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="20:15"
+        android:id="@+id/textViewTime"
+        android:textSize="32sp"
+        android:layout_above="@+id/textViewDatum"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="54dp"
+        android:layout_marginEnd="54dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Region"
+        android:id="@+id/textViewOrt"
+        android:layout_alignBottom="@+id/textViewDatum"
+        android:layout_toRightOf="@+id/textViewLocation"
+        android:layout_toEndOf="@+id/textViewLocation" />
+</RelativeLayout>
