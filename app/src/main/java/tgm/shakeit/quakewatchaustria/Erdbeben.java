@@ -5,11 +5,10 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import  javax.xml.bind.*;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,73 +17,84 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * Created by Moritz on 27.04.2016.
+ * Interprets the received JSON data and provides a definition for earthquakes. Is used for displaying an earthquakes.
+ *
+ * @author Daniel May
+ * @version 2016-05-10.1
  */
 public class Erdbeben {
     private static final String TAG = "Erdbeben.java";
 
+    /**
+     * Gets the magnitude in double format.
+     *
+     * @return magnitude
+     */
     public double getMag() {
         return mag;
     }
 
-    public void setMag(double mag) {
-        this.mag = mag;
-    }
-
+    /**
+     * Gets the earthquake's region.
+     *
+     * @return the region
+     */
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
+    /**
+     * Gets the city.
+     *
+     * @return the city
+     */
     public String getOrt() {
         return ort;
     }
 
-    public void setOrt(String ort) {
-        this.ort = ort;
-    }
-
+    /**
+     * Gets the earthquake's date in the user's local timezone.
+     *
+     * @return the formatted date
+     */
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
+    /**
+     * Gets the earthquake's time in the user's local timezone.
+     *
+     * @return the formatted time
+     */
     public String getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
+    /**
+     * Gets the coordinates.
+     *
+     * @return the formatted coordinates
+     */
     public String getCords() {
         return cords;
     }
 
-    public void setCords(String cords) {
-        this.cords = cords;
-    }
-
+    /**
+     * Gets the depth of the earthquake.
+     *
+     * @return the formatted depth.
+     */
     public String getDepth() {
         return depth;
     }
 
-    public void setDepth(String depth) {
-        this.depth = depth;
-    }
-
+    /**
+     * Gets the List of distances.
+     *
+     * @return list of distances to other places.
+     */
     public ArrayList<String> getDist() {
         return dist;
-    }
-
-    public void setDist(ArrayList<String> dist) {
-        this.dist = dist;
     }
 
     private double mag; //Magnitude
@@ -96,61 +106,75 @@ public class Erdbeben {
     private String depth; //Tiefe mit Einheit: "7,6 km"
     private ArrayList<String> dist; //Entfernungen zu anderen (relevanten) Orten: "3 km OSO von Wien"
 
-    public Erdbeben (double mag, String reg, String ort, String date, String time/*, String cords,String depth,ArrayList<String> dist*/){
-        this.mag=mag;
-        this.region=reg;
-        this.ort=ort;
-        this.date=date;
-        this.time=time;
-        this.cords=cords;
-        this.depth=depth;
-        this.dist=dist;
+    public Erdbeben(double mag, String reg, String ort, String date, String time/*, String cords,String depth,ArrayList<String> dist*/) {
+        this.mag = mag;
+        this.region = reg;
+        this.ort = ort;
+        this.date = date;
+        this.time = time;
+        //this.cords = cords;
+        //this.depth = depth;
+        //this.dist = dist;
     }
-    public Erdbeben (JSONArray toParse, int index){
+
+    /**
+     * Parses a feature JSON object to a valid earthquake object.
+     *
+     * @param toParse feature JSON object
+     */
+    public Erdbeben(JSONObject toParse) {
+        DecimalFormatSymbols decimalSymbol = new DecimalFormatSymbols();
+        decimalSymbol.setDecimalSeparator(',');
         try {
-            JSONObject desiredObject=toParse.getJSONObject(index);
-            JSONObject properties=desiredObject.getJSONObject("properties");
-            mag=properties.getDouble("mag");
-            String location=properties.getString("region");
-            if(location.contains("/")) {
+            JSONObject properties = toParse.getJSONObject("properties");
+            mag = properties.getDouble("mag");
+            String location = properties.getString("region");
+            if (location.contains("/")) {
                 String[] splittedLocation = location.split("/");
                 region = splittedLocation[1].trim();
                 ort = splittedLocation[0].trim();
-            }else{
-                ort="";
-                region=location.trim();
+            } else {
+                ort = "";
+                region = location.trim();
             }
-            DateFormat input = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.SSSX");
+            DateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
             Date date = input.parse(properties.getString(time));
-            DateFormat outputTime = new SimpleDateFormat("HH:mm",Locale.GERMAN);
+            DateFormat outputTime = new SimpleDateFormat("HH:mm", Locale.GERMAN);
             outputTime.setTimeZone(TimeZone.getDefault());
-            time=outputTime.format(date);
-            DateFormat outputDate = new SimpleDateFormat("d. MMM yyyy",Locale.GERMAN);
+            time = outputTime.format(date);
+            DateFormat outputDate = new SimpleDateFormat("d. MMM yyyy", Locale.GERMAN);
             outputDate.setTimeZone(TimeZone.getDefault());
-            this.date=outputDate.format(date);
-            JSONArray coordinates=desiredObject.getJSONObject("geometry").getJSONArray("coordinates");
-            double latitude= coordinates.getDouble(0);
-            double longitude= coordinates.getDouble(1);
-            String formattedLatitude,formattedLongitude;
-            //Koordinaten in Format: "47,34°N 14,54°O"
-            //DecimalFormat decimalFormatter=new DecimalFormat("##.00",Locale.GERMAN);
-            if(latitude>0){
-
-            }
-
+            this.date = outputDate.format(date);
+            JSONArray coordinates = toParse.getJSONObject("geometry").getJSONArray("coordinates");
+            double latitude = coordinates.getDouble(0);
+            double longitude = coordinates.getDouble(1);
+            String formattedLatitude, formattedLongitude;
+            DecimalFormat cordFormat = new DecimalFormat("#0.0#", decimalSymbol);
+            formattedLatitude = cordFormat.format(Math.abs(latitude)) + "°";
+            formattedLongitude = cordFormat.format(Math.abs(longitude)) + "°";
+            if (latitude > 0)
+                formattedLatitude += "N ";
+            else if (latitude < 0)
+                formattedLatitude += "S ";
+            else
+                formattedLatitude += "N/S ";
+            if (longitude > 0)
+                formattedLongitude += "O";
+            else if (latitude < 0)
+                formattedLongitude += "W";
+            else
+                formattedLongitude += "O/W";
+            cords = formattedLatitude + formattedLongitude;
+            DecimalFormat depthFormat = new DecimalFormat("#0.0#", decimalSymbol);
+            depth = depthFormat.format(properties.getDouble("depth")) + " km";
+            JSONArray allPlaces = properties.getJSONArray("places");
+            dist = new ArrayList<>();
+            for (int i = 0; i < allPlaces.length(); i++)
+                dist.add(allPlaces.getJSONObject(i).getString("text"));
         } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
+            Log.e(TAG, "Couldn't interpret the data: " + e.getMessage());
         } catch (ParseException e) {
             Log.e(TAG, "Wrong datetime format: " + e.toString());
         }
-
     }
-    private String longitutdeToString(double longitude){
-
-    }
-
-    private String latitudeToString(double latitude){
-
-    }
-
 }
