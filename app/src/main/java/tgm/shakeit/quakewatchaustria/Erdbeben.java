@@ -81,7 +81,7 @@ public class Erdbeben implements Serializable {
             //setting the Location
             epicentre = new Location("epicentre");
             epicentre.setLatitude(latitude);
-            epicentre.setLongitude(latitude);
+            epicentre.setLongitude(longitude);
             //formatting of a coordinate
             DecimalFormat cordFormat = new DecimalFormat("0.0#", decimalSymbol);
             StringBuilder sb = new StringBuilder();
