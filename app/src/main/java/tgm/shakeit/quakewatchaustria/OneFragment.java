@@ -37,13 +37,13 @@ public class OneFragment extends Fragment {
         v = inflater.inflate(R.layout.one_fragment, container, false);
         lv = (ListView) v.findViewById(R.id.listAt);
         ArrayList<Erdbeben> values=new ArrayList<>();
-        values.add(new Erdbeben(5.2,"Wien","Wien","27.04.2016","19:24"));
+        /*values.add(new Erdbeben(5.2,"Wien","Wien","27.04.2016","19:24"));
         values.add(new Erdbeben(3.1,"Wien","Wien","27.04.2016","19:32"));
         values.add(new Erdbeben(4.3,"Wien","Wien","27.04.2016","19:24"));
         values.add(new Erdbeben(1.6,"Wien","Wien","27.04.2016","19:24"));
         values.add(new Erdbeben(9.4,"Wien","Wien","27.04.2016","19:24"));
         values.add(new Erdbeben(7.8,"Wien","Wien","27.04.2016","19:24"));
-        values.add(new Erdbeben(6.9,"Wien","Wien","27.04.2016","19:24"));
+        values.add(new Erdbeben(6.9,"Wien","Wien","27.04.2016","19:24"));*/
         ArrayAdapter<String> adapter = new CustomArrayAdapter(getContext(),values);
         lv.setAdapter(adapter);
         lv.deferNotifyDataSetChanged();

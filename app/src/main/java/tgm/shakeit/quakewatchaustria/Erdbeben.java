@@ -39,6 +39,8 @@ public class Erdbeben implements Serializable {
     private String depth; //Tiefe mit Einheit: "7 km"
     private ArrayList<String> dist; //Entfernungen zu anderen (relevanten) Orten: "3 km OSO von Wien"
 
+    private Location epicentre;
+
 
     /**
      * Parses a feature JSON object to a valid earthquake object. If the user's GPS is not enabled, just pass null to the constructor and print out an error message.
@@ -76,6 +78,10 @@ public class Erdbeben implements Serializable {
             JSONArray coordinates = toParse.getJSONObject("geometry").getJSONArray("coordinates");
             double latitude = coordinates.getDouble(0);
             double longitude = coordinates.getDouble(1);
+            //setting the Location
+            epicentre = new Location("epicentre");
+            epicentre.setLatitude(latitude);
+            epicentre.setLongitude(latitude);
             //formatting of a coordinate
             DecimalFormat cordFormat = new DecimalFormat("0.0#", decimalSymbol);
             StringBuilder sb = new StringBuilder();
@@ -107,7 +113,7 @@ public class Erdbeben implements Serializable {
             quake.setLatitude(latitude);
             quake.setLongitude(longitude);
             //save the distance to the quake
-            refreshDistanceFromQuake(current, quake);
+            refreshDistanceFromQuake(current);
         } catch (JSONException e) {
             Log.e(TAG, "Couldn't interpret the data: " + e.getMessage());
         }
@@ -118,10 +124,10 @@ public class Erdbeben implements Serializable {
      *
      * @param phone the mobile phone's current location
      */
-    public void refreshDistanceFromQuake(Location phone, Location quake) {
+    public void refreshDistanceFromQuake(Location phone) {
         distance = null;
         if (phone != null) {
-            double tmp = phone.distanceTo(quake);
+            double tmp = phone.distanceTo(epicentre);
             tmp /= 1000.0;
             DecimalFormat distFormat = new DecimalFormat(",##0.0", decimalSymbol);
             distance = distFormat.format(tmp) + " km";
