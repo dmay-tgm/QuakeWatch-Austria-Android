@@ -96,7 +96,7 @@ public class Erdbeben implements Serializable {
             sb.append(cordFormat.format(Math.abs(longitude))).append("°");
             if (longitude > 0)
                 sb.append("O");
-            else if (latitude < 0)
+            else if (longitude < 0)
                 sb.append("W");
             else
                 sb.append("O/W");
