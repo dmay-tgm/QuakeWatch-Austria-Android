@@ -20,7 +20,7 @@ public class FileManager<T> {
     public static final String EU_FILE = "eu.ser";
     public static final String AT_FILE = "at.ser";
     public static final String WORLD_FILE = "world.ser";
-    //public static final String LATEST_FILE = "latest.txt";
+    //public static final String LATEST_FILE = "latest.ser";
 
     private static final String TAG = "FileManager.java";
 
