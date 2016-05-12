@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.widget.TableLayout;
 
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class NaviDrawer extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //JodaTimeAndroid.init(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
