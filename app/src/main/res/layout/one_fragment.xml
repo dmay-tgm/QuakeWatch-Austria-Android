@@ -17,7 +17,6 @@
         android:contextClickable="true"
         android:drawSelectorOnTop="false"
         android:background="#FFFFFF"
-        android:clipToPadding="false"
-        android:paddingBottom="120dp"  />
+        android:clipToPadding="false" />
 
 </RelativeLayout>

@@ -15,7 +15,6 @@ import android.content.Context;
         import java.util.List;
 
 /**
- * Created by Moritz
  * Usage:   Adapter for the ListViews to process data
  * sets the color Codes for depending on magnitude
  */
@@ -120,14 +119,22 @@ public class CustomArrayAdapter extends ArrayAdapter {
         /**
          * Set the holder properties and elements
          */
-        holder.textMag.setTextColor(Color.BLACK);
         Erdbeben temp = (Erdbeben) data.get(position);
         double mag = temp.getMag();
-        holder.textMag.setText(mag + "");
-        holder.region.setText(temp.getRegion());
-        holder.date.setText(temp.getDate());
-        holder.time.setText(temp.getTime());
-        holder.ort.setText(temp.getOrt());
+        if(temp.getOrt()!=null && temp.getOrt()!="") {
+            holder.textMag.setText(mag + "");
+            holder.region.setText(temp.getRegion());
+            holder.date.setText(temp.getDate());
+            holder.time.setText(temp.getTime());
+            holder.ort.setText(temp.getOrt());
+        }else{
+            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation2);
+            holder.textMag.setText(mag + "");
+            holder.region.setText(temp.getRegion());
+            holder.date.setText(temp.getDate());
+            holder.time.setText(temp.getTime());
+            holder.ort.setText(null);
+        }
         /*
          ----------------------------------------------------
          ---            COLOR CODES COLOR CODES           ---
