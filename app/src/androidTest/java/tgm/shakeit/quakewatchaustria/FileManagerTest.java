@@ -39,8 +39,8 @@ public class FileManagerTest extends AndroidTestCase {
      */
     @Test
     public void testReadType() {
-        fm.writeObjects(FileManager.AT_FILE, toSave, getContext());
-        Object result = fm.readObjects(FileManager.AT_FILE, getContext());
+        fm.writeObject(FileManager.AT_FILE, toSave, getContext());
+        Object result = fm.readObject(FileManager.AT_FILE, getContext());
         assertThat(result, IsInstanceOf.instanceOf(String.class));
     }
 
@@ -49,7 +49,7 @@ public class FileManagerTest extends AndroidTestCase {
      */
     @Test
     public void testReadNull() {
-        Object result = fm.readObjects(FileManager.AT_FILE, getContext());
+        Object result = fm.readObject(FileManager.AT_FILE, getContext());
         assertNull(result);
     }
 
@@ -57,8 +57,8 @@ public class FileManagerTest extends AndroidTestCase {
      * test if the data could was successfully saved.
      */
     public void testWithSuccess() {
-        fm.writeObjects(FileManager.AT_FILE, toSave, getContext());
-        Object result = fm.readObjects(FileManager.AT_FILE, getContext());
+        fm.writeObject(FileManager.AT_FILE, toSave, getContext());
+        Object result = fm.readObject(FileManager.AT_FILE, getContext());
         assertEquals(result, toSave);
     }
 
@@ -66,9 +66,9 @@ public class FileManagerTest extends AndroidTestCase {
      * test if the data can be overridden.
      */
     public void testWithOverride() {
-        fm.writeObjects(FileManager.AT_FILE, "abc", getContext());
-        fm.writeObjects(FileManager.AT_FILE, toSave, getContext());
-        Object result = fm.readObjects(FileManager.AT_FILE, getContext());
+        fm.writeObject(FileManager.AT_FILE, "abc", getContext());
+        fm.writeObject(FileManager.AT_FILE, toSave, getContext());
+        Object result = fm.readObject(FileManager.AT_FILE, getContext());
         assertEquals(result, toSave);
     }
 }
