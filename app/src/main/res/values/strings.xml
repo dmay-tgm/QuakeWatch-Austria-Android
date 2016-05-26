@@ -6,4 +6,14 @@
 
     <string name="action_settings">Settings</string>
     <string name="loading_error">Daten konnten nicht geladen werden.</string>
+    <string name="quake_list">Erdbebenliste</string>
+    <string name="behavior_advisor">Verhaltensratgeber</string>
+    <string name="lexicon">Lexikon</string>
+    <string name="faq">FAQ</string>
+    <string name="general">Allgemein</string>
+    <string name="austria">Österreich</string>
+    <string name="overview">Übersicht</string>
+    <string name="quake_hazard">Erdbebengefährdung</string>
+    <string name="strongest_quakes">Stärkste Erdbeben</string>
+    <string name="imprint">Impressum</string>
 </resources>
