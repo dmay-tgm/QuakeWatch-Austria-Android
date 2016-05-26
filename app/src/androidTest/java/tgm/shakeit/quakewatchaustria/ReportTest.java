@@ -18,8 +18,6 @@ import org.json.JSONObject;
  */
 public class ReportTest extends AndroidTestCase {
 
-    private static JSONObject addquestions = new JSONObject();
-
     /**
      * sets up the tests
      */

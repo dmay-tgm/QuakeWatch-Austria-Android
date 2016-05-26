@@ -36,7 +36,7 @@ public class Report {
             locLon = lonLat.format(toSet.getLongitude());
             locLat = lonLat.format(toSet.getLatitude());
             locPrecision = new DecimalFormat("0000.00", dfs).format(toSet.getAccuracy());
-            locLastUpdate = ISODateTimeFormat.dateTime().print(toSet.getTime());
+            locLastUpdate = ISODateTimeFormat.dateTimeNoMillis().print(toSet.getTime());
         }
     }
 
@@ -92,7 +92,7 @@ public class Report {
      * @param stamp the time, the quake was recognized
      */
     public static void setTime(DateTime stamp) {
-        verspuert = ISODateTimeFormat.dateTime().print(stamp);
+        verspuert = ISODateTimeFormat.dateTimeNoMillis().print(stamp);
     }
 
     /**
@@ -109,7 +109,7 @@ public class Report {
      *
      * @param contact the contact to set
      */
-    public static void setContect(String contact) {
+    public static void setContact(String contact) {
         kontakt = contact;
     }
 

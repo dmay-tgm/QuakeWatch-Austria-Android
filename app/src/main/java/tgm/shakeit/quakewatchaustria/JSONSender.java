@@ -3,6 +3,9 @@ package tgm.shakeit.quakewatchaustria;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,11 +24,11 @@ import java.util.LinkedList;
  * @version 2016-05-23.1
  */
 public class JSONSender {
-    private static final String APIURL = "http://geoweb.zamg.ac.at/quakeapi/v02/getapikey";
-    private static final String SENDURL = "http://geoweb.zamg.ac.at/quakeapi/v02/message";
+    private static final String API_URL = "http://geoweb.zamg.ac.at/quakeapi/v02/getapikey";
+    private static final String SEND_URL = "http://geoweb.zamg.ac.at/quakeapi/v02/message";
     private static final String TAG = "JSONSender.java";
     private String APIkey = null;
-    private LinkedList<Report> queue = null;
+    private LinkedList<String> queue = null;
 
     /**
      * Configures a new sender instance, that is ready to report earthquakes.
@@ -51,7 +54,7 @@ public class JSONSender {
     private void generateAPIkey(Context context) {
         URL apiHost;
         try {
-            apiHost = new URL(APIURL);
+            apiHost = new URL(API_URL);
             //configure the connection
             HttpURLConnection apiConnection = (HttpURLConnection) apiHost.openConnection();
             apiConnection.setRequestMethod("POST");
@@ -69,7 +72,7 @@ public class JSONSender {
             apiConnection.disconnect();
             // saving the key permanently
             FileManager<String> keySaver = new FileManager<>();
-            String toSave = sb.toString();
+            String toSave = new JSONObject(sb.toString()).getString("apikey");
             keySaver.writeObject(FileManager.API_KEY_FILE, toSave, context);
             APIkey = toSave;
         } catch (MalformedURLException e) {
@@ -78,6 +81,8 @@ public class JSONSender {
             Log.e(TAG, "Method is not supported: " + e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, "Couldn't open the connection: " + e.getMessage());
+        } catch (JSONException e) {
+            Log.e(TAG, "Couldn't read the API key: " + e.getMessage());
         }
     }
 
@@ -97,8 +102,8 @@ public class JSONSender {
      * @param context the given context
      */
     private void loadQueued(Context context) {
-        FileManager<LinkedList<Report>> queueLoader = new FileManager<>();
-        queue = queueLoader.readObject(FileManager.API_KEY_FILE, context);
+        FileManager<LinkedList<String>> queueLoader = new FileManager<>();
+        queue = queueLoader.readObject(FileManager.REPORT_QUEUE_FILE, context);
     }
 
     /**
@@ -107,9 +112,9 @@ public class JSONSender {
      * @param r       the earthquake to report
      * @param context given context
      */
-    public void addToQueue(Report r, Context context) {
+    public void addToQueue(String r, Context context) {
         queue.addLast(r);
-        FileManager<LinkedList<Report>> fm = new FileManager<>();
+        FileManager<LinkedList<String>> fm = new FileManager<>();
         fm.writeObject(FileManager.REPORT_QUEUE_FILE, queue, context);
     }
 
@@ -118,10 +123,10 @@ public class JSONSender {
      *
      * @param r the report to send
      */
-    private void sendSingle(Report r) {
+    private void sendSingle(String r) {
         URL send;
         try {
-            send = new URL(SENDURL);
+            send = new URL(SEND_URL);
             //configure the connection
             HttpURLConnection con = (HttpURLConnection) send.openConnection();
             con.setRequestMethod("POST");
@@ -129,14 +134,16 @@ public class JSONSender {
             con.setRequestProperty("Authorization", "Basic cXVha2VhcGk6I3FrcCZtbGRuZyM=");
             con.setRequestProperty("X-QuakeAPIKey", APIkey);
             con.setDoOutput(true);
+            con.setDoInput(true);
             con.setChunkedStreamingMode(0);
             //write the data
-            con.getOutputStream().write(r.toJSON().toString().getBytes("utf-8"));
+            con.getOutputStream().write(r.getBytes("utf-8"));
             // read error message
             if (con.getResponseCode() != 200) {
+                Log.e(TAG, "Error sending data: " + con.getResponseCode() + " " + con.getResponseMessage());
                 //read from URL
                 BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
+                        con.getErrorStream()));
                 StringBuilder sb = new StringBuilder();
                 String inputLine;
                 while ((inputLine = in.readLine()) != null)
@@ -163,11 +170,11 @@ public class JSONSender {
      * @param context given context
      */
     public void sendQueued(Context context) {
-        for (Iterator<Report> iterator = queue.iterator(); iterator.hasNext(); ) {
-            Report r = iterator.next();
+        for (Iterator<String> iterator = queue.iterator(); iterator.hasNext(); ) {
+            String r = iterator.next();
             sendSingle(r);
             iterator.remove();
-            FileManager<LinkedList<Report>> fm = new FileManager<>();
+            FileManager<LinkedList<String>> fm = new FileManager<>();
             fm.writeObject(FileManager.REPORT_QUEUE_FILE, queue, context);
         }
     }
