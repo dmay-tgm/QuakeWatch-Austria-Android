@@ -16,4 +16,7 @@
     <string name="quake_hazard">Erdbebengefährdung</string>
     <string name="strongest_quakes">Stärkste Erdbeben</string>
     <string name="imprint">Impressum</string>
+    <string name="team">QuakeWatch Austria wurde in Kooperation mit dem <b>tgm</b> im Rahmen einer Projektarbeit entwickelt.</string>
+    <string name="team_members">Daniel May, Moritz Mühlehner, Lukas Sträßler, Martin Weber</string>
+    <string name="developer">Entwickler:</string>
 </resources>
