@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * Manages quakes to report.
@@ -29,10 +30,12 @@ public class Report {
      */
     public static void setLocation(Location toSet) {
         if (toSet != null && toSet.hasAccuracy()) {
-            DecimalFormat lonLat = new DecimalFormat("000.000000");
+            DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+            dfs.setDecimalSeparator('.');
+            DecimalFormat lonLat = new DecimalFormat("000.000000", dfs);
             locLon = lonLat.format(toSet.getLongitude());
             locLat = lonLat.format(toSet.getLatitude());
-            locPrecision = new DecimalFormat("0000.00").format(toSet.getAccuracy());
+            locPrecision = new DecimalFormat("0000.00", dfs).format(toSet.getAccuracy());
             locLastUpdate = ISODateTimeFormat.dateTime().print(toSet.getTime());
         }
     }
@@ -137,7 +140,7 @@ public class Report {
     /**
      * Adds an additional answer to the data
      *
-     * @param question the question index
+     * @param question the question index from 1 to 14
      * @param answer   answer to the question
      */
     public static void addZusatz(int question, boolean answer) {
@@ -156,7 +159,7 @@ public class Report {
     /**
      * Deletes every set value.
      */
-    private static void clear() {
+    public static void clear() {
         referenzID = null;
         locLon = null;
         locLat = null;
@@ -176,20 +179,21 @@ public class Report {
      *
      * @return the JSON Object to send to the ZAMG
      */
-    public JSONObject toJSON() {
+    public static JSONObject toJSON() {
         JSONObject result = new JSONObject();
         try {
-            result.put("referenzID", referenzID);
-            result.put("locLon", locLon);
-            result.put("locLat", locLat);
-            result.put("locPrecision", locPrecision);
-            result.put("mlocPLZ", mlocPLZ);
-            result.put("mlocOrtsname", mlocOrtsname);
+            result.put("referenzID", referenzID == null ? JSONObject.NULL : referenzID);
+            result.put("locLon", locLon == null ? JSONObject.NULL : locLon);
+            result.put("locLat", locLat == null ? JSONObject.NULL : locLat);
+            result.put("locPrecision", locPrecision == null ? JSONObject.NULL : locPrecision);
+            result.put("locLastUpdate", locLastUpdate == null ? JSONObject.NULL : locLastUpdate);
+            result.put("mlocPLZ", mlocPLZ == null ? JSONObject.NULL : mlocPLZ);
+            result.put("mlocOrtsname", mlocOrtsname == null ? JSONObject.NULL : mlocOrtsname);
             result.put("stockwerk", stockwerk);
             result.put("klassifikation", klassifikation);
-            result.put("verspuert", verspuert);
-            result.put("kommentar", kommentar);
-            result.put("kontakt", kontakt);
+            result.put("verspuert", verspuert == null ? JSONObject.NULL : verspuert);
+            result.put("kommentar", kommentar == null ? JSONObject.NULL : kommentar);
+            result.put("kontakt", kontakt == null ? JSONObject.NULL : kontakt);
             result.put("addquestions", addquestions);
             clear();
             return result;
