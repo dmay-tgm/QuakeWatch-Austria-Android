@@ -65,6 +65,7 @@ public class NaviDrawer extends AppCompatActivity
     private ArrayList<Erdbeben> weltvalues;
     private JSONLoader jp;
     TabLayout tabLayout;
+    FileManager<ArrayList<Erdbeben>> fm;
 
 
 
@@ -79,6 +80,7 @@ public class NaviDrawer extends AppCompatActivity
         setContentView(R.layout.activity_navi_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        fm=new FileManager<ArrayList<Erdbeben>>();
 
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -109,26 +111,40 @@ public class NaviDrawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (!isNetworkAvailable(getBaseContext())) {
-            try {
-                new AlertDialog.Builder(this)
-                        .setTitle("No internet connection")
-                        .setMessage("Please turn on mobile data")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                android.os.Process.killProcess(android.os.Process.myPid());
-                            }
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-                        })
-                        .setCancelable(false)
-                        .show();
-            } catch (Exception e) {
-                Log.d("", "Show Dialog: " + e.getMessage());
+        if (!isNetworkAvailable(getBaseContext())) {
+            if(fm.readObject(fm.AT_FILE,getBaseContext())!=null &&
+                    fm.readObject(fm.EU_FILE,getBaseContext())!=null &&
+                    fm.readObject(fm.WORLD_FILE,getBaseContext())!=null) {
+                atvalues = fm.readObject(fm.AT_FILE, getBaseContext());
+                euvalues = fm.readObject(fm.EU_FILE, getBaseContext());
+                weltvalues = fm.readObject(fm.WORLD_FILE, getBaseContext());
+                at = new OneFragment(atvalues, "AT", null);
+                eu = new OneFragment(euvalues, "EU", null);
+                welt = new OneFragment(weltvalues, "WORLD", null);
+                setupViewPager(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
+            } else {
+                try {
+                    new AlertDialog.Builder(this)
+                            .setTitle("No internet connection")
+                            .setMessage("Please turn on mobile data")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+
+                            })
+                            .setCancelable(false)
+                            .show();
+                } catch (Exception e) {
+                    Log.d("", "Show Dialog: " + e.getMessage());
+                }
             }
         } else{
-            viewPager = (ViewPager) findViewById(R.id.viewpager);
-            tabLayout = (TabLayout) findViewById(R.id.tabs);
             new Operation().execute();
         }
     }
@@ -250,21 +266,7 @@ public class NaviDrawer extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        try {
-            mGoogleApiClient.connect();
-        } catch ( Exception e){
-            new AlertDialog.Builder(this)
-                    .setTitle("No internet connection")
-                    .setMessage("Please turn on mobile data")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-
-                    })
-                    .setCancelable(true)
-                    .show();
-        }
+        mGoogleApiClient.connect();
     }
 
     @Override
@@ -336,6 +338,7 @@ public class NaviDrawer extends AppCompatActivity
 
         @Override
         protected String doInBackground(String... params) {
+
             if(atvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.AT);
                 JSONArray tmp;
@@ -396,9 +399,12 @@ public class NaviDrawer extends AppCompatActivity
         @Override
         protected void onPostExecute(String strFromDoInBg) {
             mDialog.dismiss();
-            at = new OneFragment(atvalues);
-            eu = new OneFragment(euvalues);
-            welt = new OneFragment(weltvalues);
+            fm.writeObject(fm.AT_FILE,atvalues,getBaseContext());
+            fm.writeObject(fm.EU_FILE,euvalues,getBaseContext());
+            fm.writeObject(fm.WORLD_FILE,weltvalues,getBaseContext());
+            at = new OneFragment(atvalues,"AT",mLastLocation);
+            eu = new OneFragment(euvalues,"EU",mLastLocation);
+            welt = new OneFragment(weltvalues,"WORLD",mLastLocation);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
