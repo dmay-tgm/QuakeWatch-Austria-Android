@@ -2,6 +2,7 @@ package tgm.shakeit.quakewatchaustria;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -33,9 +34,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -46,10 +52,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NaviDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
 
-    ViewPager viewPager;
+    private ViewPager viewPager;
+    private OneFragment at,eu,welt;
+    private Context c;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private ArrayList<Erdbeben> atvalues;
+    private ArrayList<Erdbeben> euvalues;
+    private ArrayList<Erdbeben> weltvalues;
+    private JSONLoader jp;
+    TabLayout tabLayout;
+
 
 
     @Override
@@ -57,9 +73,20 @@ public class NaviDrawer extends AppCompatActivity
 
         //JodaTimeAndroid.init(this);
         super.onCreate(savedInstanceState);
+        atvalues=new ArrayList<Erdbeben>();
+        weltvalues=new ArrayList<Erdbeben>();
+        euvalues=new ArrayList<Erdbeben>();
         setContentView(R.layout.activity_navi_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -94,16 +121,15 @@ public class NaviDrawer extends AppCompatActivity
                             }
 
                         })
+                        .setCancelable(false)
                         .show();
             } catch (Exception e) {
                 Log.d("", "Show Dialog: " + e.getMessage());
             }
         } else{
             viewPager = (ViewPager) findViewById(R.id.viewpager);
-            setupViewPager(viewPager);
-
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(viewPager);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            new Operation().execute();
         }
     }
 
@@ -129,9 +155,9 @@ public class NaviDrawer extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "AT");
-        adapter.addFragment(new TwoFragment(), "EU");
-        adapter.addFragment(new ThreeFragment(), "Welt");
+        adapter.addFragment(at, "AT");
+        adapter.addFragment(eu, "EU");
+        adapter.addFragment(welt, "Welt");
         viewPager.setAdapter(adapter);
     }
 
@@ -219,6 +245,163 @@ public class NaviDrawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            mGoogleApiClient.connect();
+        } catch ( Exception e){
+            new AlertDialog.Builder(this)
+                    .setTitle("No internet connection")
+                    .setMessage("Please turn on mobile data")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+
+                    })
+                    .setCancelable(true)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            mGoogleApiClient.connect();
+        } catch ( Exception e){
+            new AlertDialog.Builder(this)
+                    .setTitle("No internet connection")
+                    .setMessage("Please turn on mobile data")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+
+                    })
+                    .setCancelable(true)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        Toast.makeText(this, "Location empfangen", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this, "Location abrufen nicht möglich", Toast.LENGTH_LONG);
+    }
+
+
+    class Operation extends AsyncTask<String,String,String>{
+
+        ProgressDialog mDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(NaviDrawer.this);
+            mDialog.setMessage("Beben werden geladen...");
+            mDialog.setCancelable(false);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            if(atvalues.isEmpty()) {
+                jp = new JSONLoader(JSONLoader.AT);
+                JSONArray tmp;
+                try {
+                    tmp = jp.getjObj().getJSONArray("features");
+                    for (int i = 0; i < tmp.length(); i++) {
+                        atvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getParent(), "Fehler bei der Verbindung", Toast.LENGTH_LONG);
+                    mDialog.setMessage("Beben konnten nicht geladen werden...");
+                    try {
+                        mDialog.wait(1000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            if(euvalues.isEmpty()) {
+                jp = new JSONLoader(JSONLoader.EU);
+                JSONArray tmp;
+                try {
+                    tmp = jp.getjObj().getJSONArray("features");
+                    for (int i = 0; i < tmp.length(); i++) {
+                        euvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getParent(), "Fehler bei der Verbindung", Toast.LENGTH_LONG);
+                    mDialog.setMessage("Beben konnten nicht geladen werden...");
+                    try {
+                        mDialog.wait(1000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            if(weltvalues.isEmpty()) {
+                jp = new JSONLoader(JSONLoader.WORLD);
+                JSONArray tmp;
+                try {
+                    tmp = jp.getjObj().getJSONArray("features");
+                    for (int i = 0; i < tmp.length(); i++) {
+                        weltvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getParent(), "Fehler bei der Verbindung", Toast.LENGTH_LONG);
+                    mDialog.setMessage("Beben konnten nicht geladen werden...");
+                    try {
+                        mDialog.wait(1000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String strFromDoInBg) {
+            mDialog.dismiss();
+            at = new OneFragment(atvalues);
+            eu = new OneFragment(euvalues);
+            welt = new OneFragment(weltvalues);
+            setupViewPager(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
 }
