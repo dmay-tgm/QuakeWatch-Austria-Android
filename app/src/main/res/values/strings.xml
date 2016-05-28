@@ -16,7 +16,19 @@
     <string name="quake_hazard">Erdbebengefährdung</string>
     <string name="strongest_quakes">Stärkste Erdbeben</string>
     <string name="imprint">Impressum</string>
-    <string name="team">QuakeWatch Austria wurde in Kooperation mit dem <b>tgm</b> im Rahmen einer Projektarbeit entwickelt.</string>
+    <string name="team">&lt;b>QuakeWatch Austria&lt;/b> wurde in Kooperation mit dem &lt;b>tgm&lt;/b> im Rahmen einer Projektarbeit entwickelt.</string>
     <string name="team_members">Daniel May, Moritz Mühlehner, Lukas Sträßler, Martin Weber</string>
     <string name="developer">Entwickler:</string>
+    <string name="tgm_title">&lt;b>tgm&lt;/b> - HTBLuVA Wien XX</string>
+    <string name="tgm_address">Wexstraße 19-23, 1200 Wien</string>
+    <string name="owner">Medieninhaber und Herausgeber:</string>
+    <string name="zamg">Zentralanstalt für Meteorologie und Geodynamik (ZAMG)</string>
+    <string name="zamg_address">&lt;b>Adresse:&lt;/b> 1190 Wien, Hohe Warte 38, Österreich</string>
+    <string name="zamg_phone">&lt;b>Tel.:&lt;/b> +43 1 36 0 26</string>
+    <string name="zamg_mail">&lt;b>E-Mail:&lt;/b> dion@zamg.ac.at</string>
+    <string name="zamg_hint">Die Zentralanstalt ist eine Forschungseinrichtung des &lt;a href="http://www.bmwfw.gv.at">BMWFW&lt;/a> (Bundesministerium für Wissenschaft, Forschung und Wirtschaft).</string>
+    <string name="copyright">Copyright: © ZAMG</string>
+    <string name="copyright_details">Die Inhalte dieser Applikation sind urheberrechtlich geschützt und nur für den persönlichen Gebrauch bestimmt. Jede weitergehende Verwendung oder Reproduktion der Inhalte dieser Applikation, insbesondere die kommerzielle Nutzung und Weitergabe an Dritte bedarf der ausdrücklichen Zustimmung der ZAMG. Die Entfernung oder Abänderung der Copyright-Vermerke ist keinesfalls gestattet.</string>
+    <string name="copyright_brand">Das Logo der ZAMG ist eine im Markenregister des österreichischen Patentamtes eingetragene Marke.</string>
+    <string name="agb">Unsere Allgemeinen Geschäftsbedingungen (AGB) finden Sie &lt;a href="http://zamg.at/docs/wir_ueber_uns/AGB_ZAMG_2010-09-01.pdf">hier&lt;a>.</string>
 </resources>
