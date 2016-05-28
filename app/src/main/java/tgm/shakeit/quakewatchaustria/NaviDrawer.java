@@ -1,7 +1,7 @@
 package tgm.shakeit.quakewatchaustria;
 
+
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,35 +9,29 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.TableLayout;
+import android.view.View;
 import android.widget.Toast;
-
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,17 +40,17 @@ import com.google.android.gms.location.LocationServices;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NaviDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
+    TabLayout tabLayout;
     private ViewPager viewPager;
-    private OneFragment at,eu,welt;
+    private OneFragment at, eu, welt;
     private Context c;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -64,18 +58,33 @@ public class NaviDrawer extends AppCompatActivity
     private ArrayList<Erdbeben> euvalues;
     private ArrayList<Erdbeben> weltvalues;
     private JSONLoader jp;
-    TabLayout tabLayout;
 
+    public static boolean isNetworkAvailable(Context context) {
+        boolean outcome = false;
 
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo[] networkInfos = cm.getAllNetworkInfo();
+            for (NetworkInfo tempNetworkInfo : networkInfos) {
+
+                if (tempNetworkInfo.isConnected()) {
+                    outcome = true;
+                    break;
+                }
+            }
+        }
+
+        return outcome;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //JodaTimeAndroid.init(this);
         super.onCreate(savedInstanceState);
-        atvalues=new ArrayList<Erdbeben>();
-        weltvalues=new ArrayList<Erdbeben>();
-        euvalues=new ArrayList<Erdbeben>();
+        atvalues = new ArrayList<Erdbeben>();
+        weltvalues = new ArrayList<Erdbeben>();
+        euvalues = new ArrayList<Erdbeben>();
         setContentView(R.layout.activity_navi_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,11 +112,13 @@ public class NaviDrawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null)
+            drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         if (!isNetworkAvailable(getBaseContext())) {
             try {
@@ -126,31 +137,12 @@ public class NaviDrawer extends AppCompatActivity
             } catch (Exception e) {
                 Log.d("", "Show Dialog: " + e.getMessage());
             }
-        } else{
+        } else {
             viewPager = (ViewPager) findViewById(R.id.viewpager);
             tabLayout = (TabLayout) findViewById(R.id.tabs);
             new Operation().execute();
         }
-    }
-
-    public static boolean isNetworkAvailable(Context context) {
-        boolean outcome = false;
-
-        if (context != null) {
-            ConnectivityManager cm = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo[] networkInfos = cm.getAllNetworkInfo();
-            for (NetworkInfo tempNetworkInfo : networkInfos) {
-
-                if (tempNetworkInfo.isConnected()) {
-                    outcome = true;
-                    break;
-                }
-            }
-        }
-
-        return outcome;
+        JodaTimeAndroid.init(this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -161,42 +153,17 @@ public class NaviDrawer extends AppCompatActivity
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
+    /**
+     * Handles a press on the back button
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if (drawer != null) {
+            if (drawer.isDrawerOpen(GravityCompat.START))
+                drawer.closeDrawer(GravityCompat.START);
+            else
+                super.onBackPressed();
         }
     }
 
@@ -214,33 +181,34 @@ public class NaviDrawer extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handles clicks on the navigation items
+     *
+     * @param item selected MenuItem
+     * @return true
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.quake_list) {
+//
+//        } else if (id == R.id.behavior_advisor) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -252,7 +220,7 @@ public class NaviDrawer extends AppCompatActivity
         super.onResume();
         try {
             mGoogleApiClient.connect();
-        } catch ( Exception e){
+        } catch (Exception e) {
             new AlertDialog.Builder(this)
                     .setTitle("No internet connection")
                     .setMessage("Please turn on mobile data")
@@ -277,7 +245,7 @@ public class NaviDrawer extends AppCompatActivity
         super.onStart();
         try {
             mGoogleApiClient.connect();
-        } catch ( Exception e){
+        } catch (Exception e) {
             new AlertDialog.Builder(this)
                     .setTitle("No internet connection")
                     .setMessage("Please turn on mobile data")
@@ -297,6 +265,7 @@ public class NaviDrawer extends AppCompatActivity
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
 
     @Override
     public void onConnected(Bundle connectionHint) {
@@ -320,7 +289,7 @@ public class NaviDrawer extends AppCompatActivity
     }
 
 
-    class Operation extends AsyncTask<String,String,String>{
+    class Operation extends AsyncTask<String, String, String> {
 
         ProgressDialog mDialog;
 
@@ -336,7 +305,7 @@ public class NaviDrawer extends AppCompatActivity
 
         @Override
         protected String doInBackground(String... params) {
-            if(atvalues.isEmpty()) {
+            if (atvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.AT);
                 JSONArray tmp;
                 try {
@@ -354,7 +323,7 @@ public class NaviDrawer extends AppCompatActivity
                     }
                 }
             }
-            if(euvalues.isEmpty()) {
+            if (euvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.EU);
                 JSONArray tmp;
                 try {
@@ -372,7 +341,7 @@ public class NaviDrawer extends AppCompatActivity
                     }
                 }
             }
-            if(weltvalues.isEmpty()) {
+            if (weltvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.WORLD);
                 JSONArray tmp;
                 try {
@@ -404,4 +373,33 @@ public class NaviDrawer extends AppCompatActivity
         }
     }
 
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
 }

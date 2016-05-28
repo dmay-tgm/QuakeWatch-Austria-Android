@@ -21,7 +21,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navi_drawer"
         app:menu="@menu/activity_navi_drawer_drawer" />
-
-
 </android.support.v4.widget.DrawerLayout>
-

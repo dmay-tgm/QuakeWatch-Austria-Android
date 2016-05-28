@@ -2,35 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+        <item android:title="@string/general">
+            <menu>
+                <item
+                    android:id="@+id/quake_list"
+                    android:title="@string/quake_list" />
+                <item
+                    android:id="@+id/behavior_advisor"
+                    android:title="@string/behavior_advisor" />
+                <item
+                    android:id="@+id/lexicon"
+                    android:title="@string/lexicon" />
+                <item
+                    android:id="@+id/faq"
+                    android:title="@string/faq" />
+                <item
+                    android:id="@+id/imprint"
+                    android:title="@string/imprint" />
+            </menu>
+        </item>
+        <item android:title="@string/austria">
+            <menu>
+                <item
+                    android:id="@+id/overview"
+                    android:title="@string/overview" />
+                <item
+                    android:id="@+id/quake_hazard"
+                    android:title="@string/quake_hazard" />
+                <item
+                    android:id="@+id/strongest_quakes"
+                    android:title="@string/strongest_quakes" />
+            </menu>
+        </item>
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>
