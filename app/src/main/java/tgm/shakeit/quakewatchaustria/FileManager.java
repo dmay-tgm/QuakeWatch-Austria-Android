@@ -14,13 +14,15 @@ import java.io.ObjectOutputStream;
  * Reads or writes generic data from/to a file using serialization.
  *
  * @author Daniel May
- * @version 2016-05-11.1
+ * @version 2016-05-23.1
  */
 public class FileManager<T> {
     public static final String EU_FILE = "eu.ser";
     public static final String AT_FILE = "at.ser";
     public static final String WORLD_FILE = "world.ser";
-    //public static final String LATEST_FILE = "latest.ser";
+    public static final String API_KEY_FILE = "key.ser";
+    public static final String REPORT_QUEUE_FILE = "queue.ser";
+    public static final String LATEST_FILE = "latest.ser";
 
     private static final String TAG = "FileManager.java";
 
@@ -31,7 +33,7 @@ public class FileManager<T> {
      * @param content  the generic content to save
      * @param context  the ApplicationContext to use
      */
-    public void writeObjects(String filename, T content, Context context) {
+    public void writeObject(String filename, T content, Context context) {
         FileOutputStream outputStream;
         try {
             outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -47,10 +49,10 @@ public class FileManager<T> {
     /**
      * Reads the content from a file and parses it to a generic object.
      *
-     * @param filename the file to readObjects from
+     * @param filename the file to readObject from
      * @param context  the ApplicationContext to use
      */
-    public T readObjects(String filename, Context context) {
+    public T readObject(String filename, Context context) {
         T desiredObject = null;
         try {
             FileInputStream inputStream = context.openFileInput(filename);
