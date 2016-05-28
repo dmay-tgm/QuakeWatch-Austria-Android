@@ -38,9 +38,7 @@ public class Erdbeben implements Serializable {
     private String cords; //Koordinaten in Format: "47,34°N 14,54°O"
     private String depth; //Tiefe mit Einheit: "7 km"
     private ArrayList<String> dist; //Entfernungen zu anderen (relevanten) Orten: "3 km OSO von Wien"
-
-    private Location epicentre;
-
+    private double latitude, longitude;
 
     /**
      * Parses a feature JSON object to a valid earthquake object. If the user's GPS is not enabled, just pass null to the constructor and print out an error message.
@@ -76,12 +74,8 @@ public class Erdbeben implements Serializable {
             this.time = timeFormatter.print(date);
             //get the coordinates
             JSONArray coordinates = toParse.getJSONObject("geometry").getJSONArray("coordinates");
-            double latitude = coordinates.getDouble(0);
-            double longitude = coordinates.getDouble(1);
-            //setting the Location
-            epicentre = new Location("epicentre");
-            epicentre.setLatitude(latitude);
-            epicentre.setLongitude(longitude);
+            latitude = coordinates.getDouble(0);
+            longitude = coordinates.getDouble(1);
             //formatting of a coordinate
             DecimalFormat cordFormat = new DecimalFormat("0.0#", decimalSymbol);
             StringBuilder sb = new StringBuilder();
@@ -127,6 +121,10 @@ public class Erdbeben implements Serializable {
     public void refreshDistanceFromQuake(Location phone) {
         distance = null;
         if (phone != null) {
+            //setting the Location
+            Location epicentre = new Location("epicentre");
+            epicentre.setLatitude(latitude);
+            epicentre.setLongitude(longitude);
             double tmp = phone.distanceTo(epicentre);
             tmp /= 1000.0;
             DecimalFormat distFormat = new DecimalFormat(",##0.0", decimalSymbol);
