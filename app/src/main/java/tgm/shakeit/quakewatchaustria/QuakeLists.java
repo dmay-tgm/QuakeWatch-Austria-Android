@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -33,6 +34,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
 
 /**
  * Fragment that manages three sub-fragments. Displays the viewpager with the three quake tabs.
@@ -119,10 +121,19 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             }
             contentcreated=true;
         }
-        else if(contentcreated){
-            setupViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
+        else{
+            viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+            tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+            tabLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    setupViewPager(viewPager);
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+            });
+
         }
+
         getActivity().setTitle(R.string.quake_list);
         return rootView;
     }
@@ -149,7 +160,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(at, "AT");
         adapter.addFragment(eu, "EU");
         adapter.addFragment(welt, "Welt");

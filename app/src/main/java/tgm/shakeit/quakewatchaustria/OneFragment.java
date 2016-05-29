@@ -135,6 +135,9 @@ public class OneFragment extends Fragment implements SwipeRefreshLayout.OnRefres
                 lv.setAdapter(adapter);
                 lv.deferNotifyDataSetChanged();
             }
+            if(!updated) {
+                Toast.makeText(getActivity(),"Keine Datenverbindung",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
