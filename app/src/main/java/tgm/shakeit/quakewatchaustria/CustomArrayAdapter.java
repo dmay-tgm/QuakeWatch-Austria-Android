@@ -1,18 +1,19 @@
 package tgm.shakeit.quakewatchaustria;
 
 import android.content.Context;
-        import android.graphics.Color;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.ArrayAdapter;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Usage:   Adapter for the ListViews to process data
@@ -53,10 +54,10 @@ public class CustomArrayAdapter extends ArrayAdapter {
     private List<Erdbeben> data;
 
     /**
-     * Construktor
+     * Constructor
      *
      * @param context  --> context
-     * @param resource --> ressorce hand over for processing
+     * @param resource --> resource hand over for processing
      */
     public CustomArrayAdapter(Context context, ArrayList<Erdbeben> resource) {
         super(context, R.layout.customrow, resource);
@@ -73,24 +74,24 @@ public class CustomArrayAdapter extends ArrayAdapter {
      * Override Method
      * Called When: This Method is called when the ViewPagerAdapter
      * generates the Fragments
-     * And the single Erdbeben Objects are created and hand over as ressource
+     * And the single Erdbeben Objects are created and hand over as resource
      * Usage:       Calculates necessary Information about List Item
      *
-     * @param position    --> positon in ListView
+     * @param position    --> position in ListView
      * @param convertView --> the View the ListView belongs to
      * @param parent      --> the parent ViewGroup
-     * @return
+     * @return the row view
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //Creates The ViewHolder
         /**
-         * The Viewholder is used to provide much better
+         * The ViewHolder is used to provide much better
          * performance
          * Basically it holds the different items and positions til the next call
          */
         ViewHolder holder;
-        //Infalte the Layout
+        //Inflate the Layout
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
         /*
@@ -103,7 +104,7 @@ public class CustomArrayAdapter extends ArrayAdapter {
             convertView = inflater.inflate(R.layout.customrow, null);
             holder = new ViewHolder();
             holder.textMag = (TextView) convertView.findViewById(R.id.listText);
-            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
+//            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
             holder.time = (TextView) convertView.findViewById(R.id.textViewTime);
             holder.date = (TextView) convertView.findViewById(R.id.textViewDatum);
             holder.ort = (TextView) convertView.findViewById(R.id.textViewOrt);
@@ -119,21 +120,23 @@ public class CustomArrayAdapter extends ArrayAdapter {
         /**
          * Set the holder properties and elements
          */
-        Erdbeben temp = (Erdbeben) data.get(position);
+        Erdbeben temp = data.get(position);
         double mag = temp.getMag();
-        if(temp.getOrt()!=null && temp.getOrt()!="") {
-            holder.textMag.setText(mag + "");
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator('.');
+        holder.textMag.setText(new DecimalFormat("#0.0", dfs).format(mag));
+        holder.date.setText(temp.getDate());
+        holder.time.setText(temp.getTime());
+        if (temp.getOrt() != null && !temp.getOrt().equals("")) {
+            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
             holder.region.setText(temp.getRegion());
-            holder.date.setText(temp.getDate());
-            holder.time.setText(temp.getTime());
+            ((TextView) convertView.findViewById(R.id.textViewLocation2)).setText("");
             holder.ort.setText(temp.getOrt());
-        }else{
+        } else {
             holder.region = (TextView) convertView.findViewById(R.id.textViewLocation2);
-            holder.textMag.setText(mag + "");
             holder.region.setText(temp.getRegion());
-            holder.date.setText(temp.getDate());
-            holder.time.setText(temp.getTime());
-            holder.ort.setText(null);
+            ((TextView) convertView.findViewById(R.id.textViewLocation)).setText("");
+            holder.ort.setText("");
         }
         /*
          ----------------------------------------------------
