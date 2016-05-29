@@ -23,11 +23,13 @@ public class NaviDrawer extends AppCompatActivity
 
     private WebView webView;
     private NavigationView navigationView;
+    private QuakeLists ql;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi_drawer);
+        ql=new QuakeLists();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,7 +99,7 @@ public class NaviDrawer extends AppCompatActivity
             newFragment = new Imprint();
             webView = null;
         } else if (id == R.id.quake_list) {
-            newFragment = new QuakeLists();
+            newFragment = ql;
             webView = null;
         } else {
             newFragment = new WebPage();

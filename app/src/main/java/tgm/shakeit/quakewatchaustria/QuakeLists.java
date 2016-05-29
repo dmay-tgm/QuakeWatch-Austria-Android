@@ -51,6 +51,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     private ArrayList<Erdbeben> weltvalues;
     private FileManager<ArrayList<Erdbeben>> fm;
     private GoogleApiClient mGoogleApiClient;
+    private boolean contentcreated=false;
 
     private static boolean isNetworkAvailable(Context context) {
         boolean outcome = false;
@@ -69,51 +70,58 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabpage, container, false);
-        atvalues = new ArrayList<>();
-        weltvalues = new ArrayList<>();
-        euvalues = new ArrayList<>();
-        fm = new FileManager<>();
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
-        if (!isNetworkAvailable(getContext())) {
-            if (fm.readObject(FileManager.AT_FILE, getContext()) != null &&
-                    fm.readObject(FileManager.EU_FILE, getContext()) != null &&
-                    fm.readObject(FileManager.WORLD_FILE, getContext()) != null) {
-                atvalues = fm.readObject(FileManager.AT_FILE, getContext());
-                euvalues = fm.readObject(FileManager.EU_FILE, getContext());
-                weltvalues = fm.readObject(FileManager.WORLD_FILE, getContext());
-                at = new OneFragment(atvalues, "AT", null);
-                eu = new OneFragment(euvalues, "EU", null);
-                welt = new OneFragment(weltvalues, "WORLD", null);
-                setupViewPager(viewPager);
-                tabLayout.setupWithViewPager(viewPager);
-            } else {
-                try {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("No internet connection")
-                            .setMessage("Please turn on mobile data")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                }
-
-                            })
-                            .setCancelable(false)
-                            .show();
-                } catch (Exception e) {
-                    Log.d("", "Show Dialog: " + e.getMessage());
-                }
+        if(!contentcreated) {
+            atvalues = new ArrayList<>();
+            weltvalues = new ArrayList<>();
+            euvalues = new ArrayList<>();
+            fm = new FileManager<>();
+            if (mGoogleApiClient == null) {
+                mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .addApi(LocationServices.API)
+                        .build();
             }
-        } else {
-            new Operation().execute();
+            viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+            tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+            if (!isNetworkAvailable(getContext())) {
+                if (fm.readObject(FileManager.AT_FILE, getContext()) != null &&
+                        fm.readObject(FileManager.EU_FILE, getContext()) != null &&
+                        fm.readObject(FileManager.WORLD_FILE, getContext()) != null) {
+                    atvalues = fm.readObject(FileManager.AT_FILE, getContext());
+                    euvalues = fm.readObject(FileManager.EU_FILE, getContext());
+                    weltvalues = fm.readObject(FileManager.WORLD_FILE, getContext());
+                    at = new OneFragment(atvalues, "AT", null);
+                    eu = new OneFragment(euvalues, "EU", null);
+                    welt = new OneFragment(weltvalues, "WORLD", null);
+                    setupViewPager(viewPager);
+                    tabLayout.setupWithViewPager(viewPager);
+                } else {
+                    try {
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("No internet connection")
+                                .setMessage("Please turn on mobile data")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        android.os.Process.killProcess(android.os.Process.myPid());
+                                    }
+
+                                })
+                                .setCancelable(false)
+                                .show();
+                    } catch (Exception e) {
+                        Log.d("", "Show Dialog: " + e.getMessage());
+                    }
+                }
+            } else {
+                new Operation().execute();
+            }
+            contentcreated=true;
+        }
+        else if(contentcreated){
+            setupViewPager(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
         }
         getActivity().setTitle(R.string.quake_list);
         return rootView;
@@ -212,13 +220,18 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                         atvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Fehler bei der Verbindung", Toast.LENGTH_LONG).show();
-                    mDialog.setMessage("Beben konnten nicht geladen werden...");
-                    try {
-                        mDialog.wait(1000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("No internet connection")
+                            .setMessage("Please turn on mobile data")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+
+                            })
+                            .setCancelable(false)
+                            .show();
                 }
             }
             if (euvalues.isEmpty()) {
@@ -230,13 +243,18 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                         euvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Fehler bei der Verbindung", Toast.LENGTH_LONG).show();
-                    mDialog.setMessage("Beben konnten nicht geladen werden...");
-                    try {
-                        mDialog.wait(1000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("No internet connection")
+                            .setMessage("Please turn on mobile data")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+
+                            })
+                            .setCancelable(false)
+                            .show();
                 }
             }
             if (weltvalues.isEmpty()) {
@@ -248,13 +266,18 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                         weltvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Fehler bei der Verbindung", Toast.LENGTH_LONG).show();
-                    mDialog.setMessage("Beben konnten nicht geladen werden...");
-                    try {
-                        mDialog.wait(1000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("No internet connection")
+                            .setMessage("Please turn on mobile data")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+
+                            })
+                            .setCancelable(false)
+                            .show();
                 }
             }
             return null;
