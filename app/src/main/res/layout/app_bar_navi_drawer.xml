@@ -46,7 +46,7 @@
         fab:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/now"
+            android:id="@+id/quake_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_quake_now_white_24dp"
@@ -55,7 +55,7 @@
             fab:fab_title="aktuelles Beben" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/before"
+            android:id="@+id/quake_before"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_quake_before_white_24dp"
