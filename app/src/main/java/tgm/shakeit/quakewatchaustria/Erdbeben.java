@@ -212,4 +212,22 @@ public class Erdbeben implements Serializable {
     public ArrayList<String> getDist() {
         return dist;
     }
+
+    /**
+     * Gets the latitude.
+     *
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * Gets the longitude.
+     *
+     * @return the longitude
+     */
+    public double getLongitude() {
+        return longitude;
+    }
 }
