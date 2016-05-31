@@ -13,13 +13,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -32,13 +30,11 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.vision.Detector;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
 
 /**
  * Fragment that manages three sub-fragments. Displays the viewpager with the three quake tabs.
@@ -159,7 +155,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                         MY_PERMISSIONS_REQUEST_CODE);
                             }
                         });
@@ -172,6 +168,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
     }
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(message)
@@ -179,6 +176,10 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+    }
+
+    public Location getmLastLocation() {
+        return mLastLocation;
     }
 
     @Override
@@ -374,7 +375,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         protected String doInBackground(String... params) {
 
             JSONLoader jp;
-            if(latest.isEmpty()){
+            if (latest.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.LATEST);
                 JSONArray tmp;
                 try {
@@ -388,24 +389,24 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             return null;
 
         }
+
         @Override
         protected void onPostExecute(String strFromDoInBg) {
             mDialog.dismiss();
-            if(!latest.isEmpty()) {
+            if (!latest.isEmpty()) {
                 Intent i = new Intent(getContext(), ReferenzBeben.class);
                 i.putExtra("latest", latest);
-                if(mLastLocation==null) {
+                if (mLastLocation == null) {
                     i.putExtra("lon", 0.0);
                     i.putExtra("lat", 0.0);
-                }
-                else {
+                } else {
                     i.putExtra("lon", mLastLocation.getLongitude());
                     i.putExtra("lat", mLastLocation.getLatitude());
                 }
                 startActivity(i);
             }
-            if(latest.isEmpty()){
-                Toast.makeText(getActivity(),"Keine Datenverbindung",Toast.LENGTH_LONG).show();
+            if (latest.isEmpty()) {
+                Toast.makeText(getActivity(), "Keine Datenverbindung", Toast.LENGTH_LONG).show();
             }
         }
     }

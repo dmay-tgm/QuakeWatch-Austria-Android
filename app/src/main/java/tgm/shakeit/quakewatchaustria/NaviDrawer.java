@@ -51,6 +51,7 @@ public class NaviDrawer extends AppCompatActivity
             test_fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Report.setLocation(ql.getmLastLocation());
                     Intent i = new Intent(getBaseContext(), LocationPage.class);
                     i.putExtra("now", true);
                     startActivity(i);
@@ -58,13 +59,13 @@ public class NaviDrawer extends AppCompatActivity
             });
         }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
+        if (navigationView != null)
             navigationView.setNavigationItemSelectedListener(this);
-        }
         JodaTimeAndroid.init(this);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.quake_list));
         quakeBefore = (FloatingActionButton) findViewById(R.id.quake_before);
-        quakeBefore.setOnClickListener(ql);
+        if (quakeBefore != null)
+            quakeBefore.setOnClickListener(ql);
     }
 
     /**
