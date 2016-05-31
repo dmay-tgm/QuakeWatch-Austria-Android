@@ -25,6 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DetailPage"
             android:label="Detailseite"
@@ -36,9 +37,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ComicPage"
-            android:label="Stärke wählen"
+            android:name=".ReferenzBeben"
+            android:label="Eines dieser Beben verspührt?"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+
+            android:name=".LocationPage"
+            android:label="Details hinzufügen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -47,13 +63,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".LocationPage"
-            android:label="Details hinzufügen"
+            android:name=".ComicPage"
+            android:label="Stärke wählen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
