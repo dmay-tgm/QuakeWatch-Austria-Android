@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="tgm.shakeit.quakewatchaustria.LocationPage">
+    tools:context="tgm.shakeit.quakewatchaustria.ContactPage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/location_header"
+            android:id="@+id/contact_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -22,11 +22,11 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:text="@string/loc_hint"
+            android:text="@string/last_page_hint"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_PLZ_layout"
+            android:id="@+id/input_comment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
@@ -35,16 +35,15 @@
             android:paddingTop="8dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_PLZ"
+                android:id="@+id/input_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/plz"
-                android:inputType="textPostalAddress"
-                android:maxLength="10" />
+                android:hint="@string/your_comment"
+                android:inputType="textMultiLine" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_loc_layout"
+            android:id="@+id/input_contact_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
@@ -53,58 +52,47 @@
             android:paddingTop="8dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_loc"
+                android:id="@+id/input_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/town"
-                android:inputType="textPostalAddress" />
+                android:hint="@string/contact"
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_date_layout"
+        <TextView
+            android:id="@+id/mail_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="8dp">
+            android:paddingTop="8dp"
+            android:text="@string/mail_info"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/date"
-                android:inputType="date" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_time_layout"
+        <TextView
+            android:id="@+id/mail_info_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:gravity="center"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="8dp">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/input_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/time"
-                android:inputType="time" />
-        </android.support.design.widget.TextInputLayout>
+            android:paddingTop="8dp"
+            android:text="@string/zamg_mail_address"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/loc_next"
+        android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:fab_colorDisabled="@color/divider"
-        app:fab_icon="@drawable/ic_arrow_forward_white_24dp"
+        app:fab_icon="@drawable/ic_send_white_24dp"
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentPressed" />
-
 </android.support.design.widget.CoordinatorLayout>

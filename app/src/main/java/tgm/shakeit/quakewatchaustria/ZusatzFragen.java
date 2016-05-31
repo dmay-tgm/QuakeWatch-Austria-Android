@@ -187,7 +187,7 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(14,cb7.isChecked());
 
             }
-            Intent i = new Intent(getApplicationContext(), LocationPage.class);
+            Intent i = new Intent(getApplicationContext(), ContactPage.class);
             startActivity(i);
         }
     });
