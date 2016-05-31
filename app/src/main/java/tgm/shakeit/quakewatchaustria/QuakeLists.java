@@ -48,6 +48,7 @@ import java.util.concurrent.RunnableFuture;
  */
 public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, FloatingActionButton.OnClickListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_CODE = 100;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private OneFragment at, eu, welt;
@@ -55,10 +56,10 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     private ArrayList<Erdbeben> atvalues;
     private ArrayList<Erdbeben> euvalues;
     private ArrayList<Erdbeben> weltvalues;
-    private ArrayList<Erdbeben> latest;
+    private ArrayList<LatestQuake> latest;
     private FileManager<ArrayList<Erdbeben>> fm;
     private GoogleApiClient mGoogleApiClient;
-    private boolean contentcreated=false;
+    private boolean contentcreated = false;
 
     private static boolean isNetworkAvailable(Context context) {
         boolean outcome = false;
@@ -77,7 +78,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabpage, container, false);
-        if(!contentcreated) {
+        if (!contentcreated) {
             atvalues = new ArrayList<>();
             weltvalues = new ArrayList<>();
             euvalues = new ArrayList<>();
@@ -125,9 +126,8 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             } else {
                 new Operation().execute();
             }
-            contentcreated=true;
-        }
-        else{
+            contentcreated = true;
+        } else {
             viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
             tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
             tabLayout.post(new Runnable() {
@@ -151,17 +151,55 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
+        int hasLocationPermissions = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        if (hasLocationPermissions != PackageManager.PERMISSION_GRANTED) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                showMessageOKCancel("Berechtigungen werden für die Abfrage Ihres Standorts benötigt",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_CODE);
+                            }
+                        });
+                return;
+            }
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_CODE);
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+    }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CODE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(getActivity(), "Standort konnte nicht abgerufen werden", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -342,7 +380,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 try {
                     tmp = jp.getjObj().getJSONArray("features");
                     for (int i = 0; i < tmp.length(); i++) {
-                        latest.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
+                        latest.add(new LatestQuake(tmp.getJSONObject(i)));
                     }
                 } catch (Exception e) {
                 }
@@ -356,7 +394,14 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             if(!latest.isEmpty()) {
                 Intent i = new Intent(getContext(), ReferenzBeben.class);
                 i.putExtra("latest", latest);
-                i.putExtra("loc", mLastLocation);
+                if(mLastLocation==null) {
+                    i.putExtra("lon", 0.0);
+                    i.putExtra("lat", 0.0);
+                }
+                else {
+                    i.putExtra("lon", mLastLocation.getLongitude());
+                    i.putExtra("lat", mLastLocation.getLatitude());
+                }
                 startActivity(i);
             }
             if(latest.isEmpty()){

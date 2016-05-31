@@ -20,41 +20,38 @@ import java.util.ArrayList;
 /**
  * Created by Moritz
  */
-public class ReferenzBeben extends AppCompatActivity implements Serializable, OnMapReadyCallback, FloatingActionButton.OnClickListener {
+public class ReferenzBeben extends AppCompatActivity implements Serializable, OnMapReadyCallback {
 
-    private ArrayList<Erdbeben> data;
+    private ArrayList<LatestQuake> data;
     private MapView mapView;
-    private Location loc;
+    private double lat,lon;
     private FloatingActionButton quakefound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.referenzbeben);
-        data = (ArrayList<Erdbeben>) getIntent().getExtras().getSerializable("latest");
-        loc = (Location) getIntent().getExtras().getSerializable("loc");
+        data = (ArrayList<LatestQuake>) getIntent().getExtras().getSerializable("latest");
+        lat = (double) getIntent().getExtras().getSerializable("lat");
+        lon = (double) getIntent().getExtras().getSerializable("lon");
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         quakefound = (FloatingActionButton) findViewById(R.id.quakefound);
-        quakefound.setOnClickListener(this);
+        quakefound.setOnClickListener(new QuakeFoundListener());
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(data.get(0).getLatitude(),data.get(0).getLatitude())).title(data.get(0).getTime()+"this is a marker"));
-        if(loc!=null)
-
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(loc.getLatitude(),loc.getLongitude()),5));
+        for(LatestQuake lq:data){
+            createMarker(lq.getLatitude(),lq.getLongitude(),googleMap);
+        }
+        if(lon!=0 && lat!=0)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lon),5));
     }
 
     private void createMarker(double latitude, double longitude, GoogleMap googleMap) {
          googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
-    }
-
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(getApplicationContext(),"Bitte klicken Sie auf das Erdbeben das Sie verspührt haben", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -71,5 +68,12 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    class QuakeFoundListener implements FloatingActionButton.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getApplicationContext(),"Bitte klicken Sie auf das Erdbeben das Sie verspührt haben", Toast.LENGTH_LONG).show();
+        }
     }
 }
