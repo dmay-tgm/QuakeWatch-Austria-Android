@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 /**
- * Interprets the received JSON data and provides a definition for the last earthquakes.
+ * Interprets the received JSON data and provides a definition for the latest earthquakes.
  *
  * @author Daniel May
  * @version 2016-05-31.1

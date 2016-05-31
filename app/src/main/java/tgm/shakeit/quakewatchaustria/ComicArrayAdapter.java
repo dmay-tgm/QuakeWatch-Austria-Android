@@ -1,5 +1,6 @@
 package tgm.shakeit.quakewatchaustria;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class ComicArrayAdapter extends ArrayAdapter<Comic> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ComicHolder holder;
-        LayoutInflater inflater = LayoutInflater.from(getContext());
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         if (row == null) {
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ComicHolder();
