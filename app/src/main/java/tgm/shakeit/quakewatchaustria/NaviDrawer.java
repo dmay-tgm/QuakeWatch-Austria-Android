@@ -1,6 +1,7 @@
 package tgm.shakeit.quakewatchaustria;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 public class NaviDrawer extends AppCompatActivity
@@ -29,7 +32,7 @@ public class NaviDrawer extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi_drawer);
-        ql=new QuakeLists();
+        ql = new QuakeLists();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,7 +45,14 @@ public class NaviDrawer extends AppCompatActivity
         if (drawer != null)
             drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        final FloatingActionButton test_fab = (FloatingActionButton) findViewById(R.id.quake_now);
+        test_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(), ComicPage.class);
+                startActivity(i);
+            }
+        });
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
