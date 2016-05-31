@@ -77,6 +77,19 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ZusatzFragen"
+            android:label="Zusatzfragen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD3g-q2BDFO1Qs9G6iNrFPNXWF7yiYmai4" />
