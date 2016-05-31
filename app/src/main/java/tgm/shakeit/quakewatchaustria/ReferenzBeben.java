@@ -1,7 +1,6 @@
 package tgm.shakeit.quakewatchaustria;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,8 +25,8 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
 
     private ArrayList<LatestQuake> data;
     private MapView mapView;
-    private double lat,lon;
-    private FloatingActionButton quakefound,quakenotfound;
+    private double lat, lon;
+    private FloatingActionButton quakefound, quakenotfound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +46,16 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        for(LatestQuake lq:data){
-            createMarker(lq.getLatitude(),lq.getLongitude(),googleMap,lq.getId());
+        for (LatestQuake lq : data) {
+            createMarker(lq.getLatitude(), lq.getLongitude(), googleMap, lq.getId());
         }
-        if(lon!=0 && lat!=0)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lon),5));
-        googleMap.setOnMarkerClickListener( new QuakeMarkerListener());
+        if (lon != 0 && lat != 0)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), 5));
+        googleMap.setOnMarkerClickListener(new QuakeMarkerListener());
     }
 
-    private void createMarker(double latitude, double longitude, GoogleMap googleMap,String id) {
-         googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(id));
+    private void createMarker(double latitude, double longitude, GoogleMap googleMap, String id) {
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(id));
     }
 
     @Override
@@ -64,11 +63,13 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
         mapView.onResume();
         super.onResume();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
     }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -78,14 +79,14 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
     class QuakeFoundListener implements FloatingActionButton.OnClickListener {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getApplicationContext(),"Bitte klicken Sie auf das Erdbeben das Sie verspührt haben", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Bitte klicken Sie auf das Erdbeben, das Sie verspürt haben", Toast.LENGTH_LONG).show();
         }
     }
 
     class QuakeMarkerListener implements GoogleMap.OnMarkerClickListener {
         @Override
         public boolean onMarkerClick(final Marker marker) {
-            String id=marker.getTitle();
+            String id = marker.getTitle();
             Report.setReference(id);
             Intent i = new Intent(getApplicationContext(), LocationPage.class);
             i.putExtra("now", false);
@@ -93,6 +94,7 @@ public class ReferenzBeben extends AppCompatActivity implements Serializable, On
             return true;
         }
     }
+
     class QuakeNotFoundListener implements FloatingActionButton.OnClickListener {
         @Override
         public void onClick(View v) {

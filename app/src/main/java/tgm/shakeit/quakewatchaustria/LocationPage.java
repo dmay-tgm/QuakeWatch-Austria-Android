@@ -78,6 +78,8 @@ public class LocationPage extends AppCompatActivity {
                     Report.setPLZ(plz.getText().toString());
                     Report.setOrt(loc.getText().toString());
                     Report.setTime(dateTime);
+                    if (Report.getLocLastUpdate() == null)
+                        Report.setLocLastUpdate(dateTime);
                     Intent intent = new Intent(getBaseContext(), ComicPage.class);
                     startActivity(intent);
                 }
@@ -93,7 +95,7 @@ public class LocationPage extends AppCompatActivity {
                 public void onDateSet(DatePicker view, int year, int monthOfYear,
                                       int dayOfMonth) {
                     dateTime = dateTime.withYear(year);
-                    dateTime = dateTime.withMonthOfYear(monthOfYear);
+                    dateTime = dateTime.withMonthOfYear(monthOfYear + 1);
                     dateTime = dateTime.withDayOfMonth(dayOfMonth);
                     updateDateLabel();
                 }
@@ -102,7 +104,7 @@ public class LocationPage extends AppCompatActivity {
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DatePickerDialog dpd = new DatePickerDialog(LocationPage.this, datePickerDialog, dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+                    DatePickerDialog dpd = new DatePickerDialog(LocationPage.this, datePickerDialog, dateTime.getYear(), dateTime.getMonthOfYear() + 1, dateTime.getDayOfMonth());
                     dpd.getDatePicker().setMaxDate(new Date().getTime());
                     dpd.show();
                 }

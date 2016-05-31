@@ -157,6 +157,24 @@ public class Report {
     }
 
     /**
+     * Gets the location's last time updated string
+     *
+     * @return the string
+     */
+    public static String getLocLastUpdate() {
+        return locLastUpdate;
+    }
+
+    /**
+     * Set the location's last time updated string
+     *
+     * @param stamp string
+     */
+    public static void setLocLastUpdate(DateTime stamp) {
+        locLastUpdate = ISODateTimeFormat.dateTimeNoMillis().print(stamp);
+    }
+
+    /**
      * Deletes every set value.
      */
     public static void clear() {
@@ -196,6 +214,7 @@ public class Report {
             result.put("kontakt", kontakt == null ? JSONObject.NULL : kontakt);
             result.put("addquestions", addquestions);
             clear();
+            System.out.println(result);
             return result;
         } catch (JSONException e) {
             Log.e(TAG, "Data couldn't be gathered: " + e.getMessage());

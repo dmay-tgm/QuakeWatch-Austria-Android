@@ -38,4 +38,9 @@
     <string name="town">Ortsname</string>
     <string name="date">Datum</string>
     <string name="time">Uhrzeit</string>
+    <string name="last_page_hint">Hier können Sie einen Kommentar zu dem verspürten Erdbeben abgeben und wenn nötig, Ihre Kontaktdaten angeben.</string>
+    <string name="your_comment">Ihr Kommentar</string>
+    <string name="contact">Kontaktdaten</string>
+    <string name="zamg_mail_address">seismo@zamg.ac.at</string>
+    <string name="mail_info">Bitte schicken Sie Fotos von eventuellen Schäden an:</string>
 </resources>
