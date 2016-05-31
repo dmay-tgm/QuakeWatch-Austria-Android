@@ -39,6 +39,7 @@ public class Erdbeben implements Serializable {
     private String depth; //Tiefe mit Einheit: "7 km"
     private ArrayList<String> dist; //Entfernungen zu anderen (relevanten) Orten: "3 km OSO von Wien"
     private double latitude, longitude;
+    private double userLongitude, userLatitude;
 
     /**
      * Parses a feature JSON object to a valid earthquake object. If the user's GPS is not enabled, just pass null to the constructor and print out an error message.
@@ -121,6 +122,9 @@ public class Erdbeben implements Serializable {
     public void refreshDistanceFromQuake(Location phone) {
         distance = null;
         if (phone != null) {
+            //saving the location
+            userLatitude = phone.getLatitude();
+            userLongitude = phone.getLongitude();
             //setting the Location
             Location epicentre = new Location("epicentre");
             epicentre.setLatitude(latitude);
@@ -157,6 +161,24 @@ public class Erdbeben implements Serializable {
      */
     public String getOrt() {
         return ort;
+    }
+
+    /**
+     * Gets the last user longitude.
+     *
+     * @return last user longitude
+     */
+    public double getUserLongitude() {
+        return userLongitude;
+    }
+
+    /**
+     * Gets the last user latitude.
+     *
+     * @return last user latitude
+     */
+    public double getUserLatitude() {
+        return userLatitude;
     }
 
     /**
