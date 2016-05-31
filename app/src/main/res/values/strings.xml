@@ -31,4 +31,6 @@
     <string name="copyright_details">Die Inhalte dieser Applikation sind urheberrechtlich geschützt und nur für den persönlichen Gebrauch bestimmt. Jede weitergehende Verwendung oder Reproduktion der Inhalte dieser Applikation, insbesondere die kommerzielle Nutzung und Weitergabe an Dritte bedarf der ausdrücklichen Zustimmung der ZAMG. Die Entfernung oder Abänderung der Copyright-Vermerke ist keinesfalls gestattet.</string>
     <string name="copyright_brand">Das Logo der ZAMG ist eine im Markenregister des österreichischen Patentamtes eingetragene Marke.</string>
     <string name="agb">Unsere Allgemeinen Geschäftsbedingungen (AGB) finden Sie &lt;a href="http://zamg.at/docs/wir_ueber_uns/AGB_ZAMG_2010-09-01.pdf">hier&lt;a>.</string>
+    <string name="choose_strength">Stärke wählen</string>
+    <string name="strength_explain">Bitte wählen Sie die Stärke des verspürten Erdbebens anhand folgender Comics aus:</string>
 </resources>

@@ -21,13 +21,12 @@ import java.net.URLConnection;
  */
 public class JSONLoader {
 
-    private JSONObject jObj;
     public static final String EU = "http://geoweb.zamg.ac.at/eq_app/eu_latest.json";
     public static final String AT = "http://geoweb.zamg.ac.at/eq_app/at_latest.json";
     public static final String WORLD = "http://geoweb.zamg.ac.at/eq_app/web_latest.json";
-    //public static final String LATEST = "http://geoweb.zamg.ac.at/eq_app/latest.json";
-
+    public static final String LATEST = "http://geoweb.zamg.ac.at/eq_app/latest.json";
     private static final String TAG = "JSONLoader.java";
+    private JSONObject jObj;
 
     /**
      * Loads JSON content from an URL and stores it in the JSONObject attribute. If the data is not available now, the attribute's value will be null.

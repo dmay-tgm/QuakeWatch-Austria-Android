@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="report_title_array">
+        <item>Schwach verspürt:</item>
+        <item>Deutlich verspürt:</item>
+        <item>Stark verspürt:</item>
+        <item>Leichte Gebäudeschäden:</item>
+        <item>Gebäudeschäden:</item>
+        <item>Schwere Gebäudeschäden:</item>
+    </string-array>
+    <string-array name="report_detail_array">
+        <item>Leichtes Zittern oder Rütteln. Lampen/hängende Objekte pendeln schwach.</item>
+        <item>Deutliches Rütteln von Möbeln (z.B.: Sessel, Bett), Türen und Fensterläden. Gläser und Geschirr klirren. Wenige Schlafende erwachen.</item>
+        <item>Erschreckend. Viele Schlafende erwachen. Starkes Rütteln oder Schaukeln des gesamten Gebäudes. Geschirr und Gläser klirren laut. Lampen pendeln stark. Kleine Objekte werden verschoben oder fallen um. Vereinzelt sind feine Risse im Verputz möglich.</item>
+        <item>Viele erschrecken, einige flüchten aus Angst ins Freie. Möbel und Bilder werden verschoben. Gegenstände fallen um. Möglich sind Risse in Wänden, Abfallen von Verputzteilen und leichte Beschädigung von Rauchfängen.</item>
+        <item>Die meisten sind verängstigt, viele flüchten ins Freie. Gleichgewichtsprobleme. Viele Gegenstände fallen aus den Regalen. Tiefe Mauerrisse. Teilweiser Einsturz von Rauchfängen. In älteren Gebäuden können Zwischenwände einstürzen.</item>
+        <item>Panik. Verlieren des Gleichgewichts. Schwere Gegenstände fallen zu Boden. Umfallen von Möbelstücken möglich. Schwere Mauerschäden. Strukturelle Schäden an Gebäuden. Ältere Bauwerke stürzen ein.</item>
+    </string-array>
+</resources>
