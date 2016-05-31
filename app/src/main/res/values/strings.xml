@@ -37,4 +37,5 @@
     <string name="plz">Postleitzahl</string>
     <string name="town">Ortsname</string>
     <string name="date">Datum</string>
+    <string name="time">Uhrzeit</string>
 </resources>
