@@ -21,8 +21,9 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:clickable="true"
-        android:clipToPadding="false"
         android:dividerHeight="1dp"
         android:footerDividersEnabled="true"
+        android:scrollingCache="false"
+        android:animationCache="false"
         android:headerDividersEnabled="false" />
 </LinearLayout>
