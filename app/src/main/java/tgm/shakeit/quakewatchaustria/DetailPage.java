@@ -50,9 +50,8 @@ public class DetailPage extends AppCompatActivity implements Serializable, OnMap
         super.onCreate(savedInstanceState);
         data = (Erdbeben) getIntent().getExtras().getSerializable("data");
         setContentView(R.layout.detailpage);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Detailansicht");
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
