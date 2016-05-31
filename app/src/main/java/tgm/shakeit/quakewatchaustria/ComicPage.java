@@ -38,27 +38,36 @@ public class ComicPage extends AppCompatActivity {
             comicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //Intent intent = new Intent(getBaseContext(),DetailPage.class);
+//                    Intent intent = new Intent(getBaseContext(), ZusatzFragen.class);
                     int temp = ((Comic) adapterView.getItemAtPosition(i)).getIcon();
                     switch (temp) {
                         case R.drawable.living_room_01:
+//                            intent.putExtra("staerke", 1);
+                            Report.setKlass(1);
                             break;
                         case R.drawable.living_room_02:
+//                            intent.putExtra("staerke", 2);
+                            Report.setKlass(2);
                             break;
                         case R.drawable.living_room_03:
+//                            intent.putExtra("staerke", 3);
+                            Report.setKlass(3);
                             break;
                         case R.drawable.living_room_04:
+//                            intent.putExtra("staerke", 4);
+                            Report.setKlass(4);
                             break;
                         case R.drawable.outside_07_zerstoerung:
+//                            intent.putExtra("staerke", 5);
+                            Report.setKlass(5);
                             break;
                         case R.drawable.outside_08_zerstoerung:
+//                            intent.putExtra("staerke", 6);
+                            Report.setKlass(6);
                             break;
 
                     }
-
-
-                    // intent.putExtra("data",temp);
-                    //startActivity(intent);
+//                    startActivity(intent);
                 }
             });
         }
