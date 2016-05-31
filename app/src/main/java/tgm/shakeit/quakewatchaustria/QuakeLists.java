@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -12,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -26,9 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.vision.Detector;
 
 import org.json.JSONArray;
 
@@ -42,7 +46,7 @@ import java.util.concurrent.RunnableFuture;
  * @author Moritz Mühlehner, Daniel May
  * @version 2016-05-29.1
  */
-public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, FloatingActionButton.OnClickListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -51,6 +55,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     private ArrayList<Erdbeben> atvalues;
     private ArrayList<Erdbeben> euvalues;
     private ArrayList<Erdbeben> weltvalues;
+    private ArrayList<Erdbeben> latest;
     private FileManager<ArrayList<Erdbeben>> fm;
     private GoogleApiClient mGoogleApiClient;
     private boolean contentcreated=false;
@@ -76,6 +81,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             atvalues = new ArrayList<>();
             weltvalues = new ArrayList<>();
             euvalues = new ArrayList<>();
+            latest = new ArrayList<>();
             fm = new FileManager<>();
             if (mGoogleApiClient == null) {
                 mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -156,7 +162,6 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        Toast.makeText(getContext(), "Location empfangen", Toast.LENGTH_LONG).show();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -169,7 +174,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(getContext(), "Location abrufen nicht möglich", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Keine Datenverbindung", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -204,6 +209,11 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        new LatestOperation().execute();
+    }
+
     class Operation extends AsyncTask<String, String, String> {
 
         ProgressDialog mDialog;
@@ -211,7 +221,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = new ProgressDialog(getContext());
+            mDialog = new ProgressDialog(getActivity());
             mDialog.setMessage("Beben werden geladen...");
             mDialog.setCancelable(false);
             mDialog.setCanceledOnTouchOutside(false);
@@ -305,6 +315,53 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             welt = new OneFragment(weltvalues, "WORLD", mLastLocation);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
+        }
+    }
+
+    class LatestOperation extends AsyncTask<String, String, String> {
+
+        ProgressDialog mDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = new ProgressDialog(getActivity());
+            mDialog.setMessage("Aktuelle Beben werden geladen...");
+            mDialog.setCancelable(false);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            JSONLoader jp;
+            if(latest.isEmpty()){
+                jp = new JSONLoader(JSONLoader.LATEST);
+                JSONArray tmp;
+                try {
+                    tmp = jp.getjObj().getJSONArray("features");
+                    for (int i = 0; i < tmp.length(); i++) {
+                        latest.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
+                    }
+                } catch (Exception e) {
+                }
+            }
+            return null;
+
+        }
+        @Override
+        protected void onPostExecute(String strFromDoInBg) {
+            mDialog.dismiss();
+            if(!latest.isEmpty()) {
+                Intent i = new Intent(getContext(), ReferenzBeben.class);
+                i.putExtra("latest", latest);
+                i.putExtra("loc", mLastLocation);
+                startActivity(i);
+            }
+            if(latest.isEmpty()){
+                Toast.makeText(getActivity(),"Keine Datenverbindung",Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 public class NaviDrawer extends AppCompatActivity
@@ -24,6 +26,7 @@ public class NaviDrawer extends AppCompatActivity
     private WebView webView;
     private NavigationView navigationView;
     private QuakeLists ql;
+    private FloatingActionButton quakeBefore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class NaviDrawer extends AppCompatActivity
         }
         JodaTimeAndroid.init(this);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.quake_list));
+        quakeBefore = (FloatingActionButton) findViewById(R.id.quake_before);
+        quakeBefore.setOnClickListener(ql);
     }
 
     /**
