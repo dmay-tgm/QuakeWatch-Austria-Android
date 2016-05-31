@@ -33,4 +33,8 @@
     <string name="agb">Unsere Allgemeinen Geschäftsbedingungen (AGB) finden Sie &lt;a href="http://zamg.at/docs/wir_ueber_uns/AGB_ZAMG_2010-09-01.pdf">hier&lt;a>.</string>
     <string name="choose_strength">Stärke wählen</string>
     <string name="strength_explain">Bitte wählen Sie die Stärke des verspürten Erdbebens anhand folgender Comics aus:</string>
+    <string name="loc_hint">Bitte füllen Sie folgende Detailinformationen aus, damit Ihre Meldung sinnvoll verarbeitet werden kann.</string>
+    <string name="plz">Postleitzahl</string>
+    <string name="town">Ortsname</string>
+    <string name="date">Datum</string>
 </resources>

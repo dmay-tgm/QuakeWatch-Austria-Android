@@ -46,13 +46,16 @@ public class NaviDrawer extends AppCompatActivity
             drawer.addDrawerListener(toggle);
         toggle.syncState();
         final FloatingActionButton test_fab = (FloatingActionButton) findViewById(R.id.quake_now);
-        test_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getBaseContext(), ComicPage.class);
-                startActivity(i);
-            }
-        });
+        if (test_fab != null) {
+            test_fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getBaseContext(), LocationPage.class);
+                    i.putExtra("now", true);
+                    startActivity(i);
+                }
+            });
+        }
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
