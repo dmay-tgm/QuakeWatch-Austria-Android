@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/accessibility_comic"
         android:paddingTop="8dp"
         android:scaleType="fitStart" />
 

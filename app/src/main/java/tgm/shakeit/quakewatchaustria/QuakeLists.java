@@ -56,10 +56,16 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     private FileManager<ArrayList<Erdbeben>> fm;
     private GoogleApiClient mGoogleApiClient;
     private boolean contentcreated = false;
+    private static final String TAG = "QuakeLists.java";
 
+    /**
+     * Checks if the network is available
+     *
+     * @param context the application's context
+     * @return if the network is available
+     */
     private static boolean isNetworkAvailable(Context context) {
         boolean outcome = false;
-
         if (context != null) {
             ConnectivityManager cm = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -70,6 +76,14 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         return outcome;
     }
 
+    /**
+     * Gets called when the fragment is inflated
+     *
+     * @param inflater           the inflater
+     * @param container          the container that contains the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment's view
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,9 +110,24 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                     atvalues = fm.readObject(FileManager.AT_FILE, getContext());
                     euvalues = fm.readObject(FileManager.EU_FILE, getContext());
                     weltvalues = fm.readObject(FileManager.WORLD_FILE, getContext());
-                    at = new OneFragment(atvalues, "AT", null);
-                    eu = new OneFragment(euvalues, "EU", null);
-                    welt = new OneFragment(weltvalues, "WORLD", null);
+                    at = new OneFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable("values", atvalues);
+                    args.putString("tabname", "AT");
+                    args.putParcelable("mLastLocation", null);
+                    at.setArguments(args);
+                    eu = new OneFragment();
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable("values", euvalues);
+                    args2.putString("tabname", "EU");
+                    args2.putParcelable("mLastLocation", null);
+                    eu.setArguments(args2);
+                    welt = new OneFragment();
+                    Bundle args3 = new Bundle();
+                    args3.putSerializable("values", weltvalues);
+                    args3.putString("tabname", "WORLD");
+                    args3.putParcelable("mLastLocation", null);
+                    welt.setArguments(args3);
                     setupViewPager(viewPager);
                     tabLayout.setupWithViewPager(viewPager);
                 } else {
@@ -119,9 +148,8 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                         Log.d("", "Show Dialog: " + e.getMessage());
                     }
                 }
-            } else {
+            } else
                 new Operation().execute();
-            }
             contentcreated = true;
         } else {
             viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
@@ -140,18 +168,26 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         return rootView;
     }
 
+    /**
+     * Gets called when the connection fails
+     *
+     * @param connectionResult the connection's result
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
+    /**
+     * Gets called on connection success
+     *
+     * @param connectionHint the connection hint
+     */
     @Override
     public void onConnected(Bundle connectionHint) {
-
         int hasLocationPermissions = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
         if (hasLocationPermissions != PackageManager.PERMISSION_GRANTED) {
             if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                showMessageOKCancel("Berechtigungen werden für die Abfrage Ihres Standorts benötigt",
+                showMessageOKCancel(
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -166,43 +202,61 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             return;
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+    /**
+     * Shows a message dialog
+     *
+     * @param okListener the onClick listener
+     */
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity())
-                .setMessage(message)
+                .setMessage("Berechtigungen werden für die Abfrage Ihres Standorts benötigt")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
     }
 
+    /**
+     * Getter for the last location
+     *
+     * @return the last location
+     */
     public Location getmLastLocation() {
         return mLastLocation;
     }
 
+    /**
+     * Gets called on request permissions
+     *
+     * @param requestCode  the request code
+     * @param permissions  the permissions
+     * @param grantResults the grant results
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CODE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                         return;
-                    }
                     mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                } else {
-                    // Permission Denied
+                } else  // Permission Denied
                     Toast.makeText(getActivity(), "Standort konnte nicht abgerufen werden", Toast.LENGTH_SHORT)
                             .show();
-                }
                 break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
+    /**
+     * Sets up the view pager
+     *
+     * @param viewPager the view pager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(at, "AT");
@@ -211,23 +265,37 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         viewPager.setAdapter(adapter);
     }
 
+    /**
+     * Gets called when the connection is suspended.
+     *
+     * @param i i
+     */
     @Override
     public void onConnectionSuspended(int i) {
         Toast.makeText(getContext(), "Keine Datenverbindung", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Gets called on resume
+     */
     @Override
     public void onResume() {
         super.onResume();
         mGoogleApiClient.connect();
     }
 
+    /**
+     * Gets called on stop
+     */
     @Override
     public void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
 
+    /**
+     * Gets called on start
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -238,6 +306,11 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                     .setTitle("No internet connection")
                     .setMessage("Please turn on mobile data")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        /**
+                         * Handles clicks
+                         * @param dialog the dialog interface
+                         * @param which which
+                         */
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -248,15 +321,26 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         }
     }
 
+    /**
+     * On clikc method for loading latest quakes
+     *
+     * @param v the view that is clicked on
+     */
     @Override
     public void onClick(View v) {
         new LatestOperation().execute();
     }
 
-    class Operation extends AsyncTask<String, String, String> {
+    /**
+     * Task for loading the latest refernce quakes
+     */
+    private class Operation extends AsyncTask<String, String, String> {
 
-        ProgressDialog mDialog;
+        private ProgressDialog mDialog;
 
+        /**
+         * Gets called before executing the background task
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -267,18 +351,22 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             mDialog.show();
         }
 
+        /**
+         * background activity
+         *
+         * @param params the params
+         * @return null
+         */
         @Override
         protected String doInBackground(String... params) {
-
             JSONLoader jp;
             if (atvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.AT);
                 JSONArray tmp;
                 try {
                     tmp = jp.getjObj().getJSONArray("features");
-                    for (int i = 0; i < tmp.length(); i++) {
+                    for (int i = 0; i < tmp.length(); i++)
                         atvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
-                    }
                 } catch (Exception e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("No internet connection")
@@ -299,9 +387,8 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 JSONArray tmp;
                 try {
                     tmp = jp.getjObj().getJSONArray("features");
-                    for (int i = 0; i < tmp.length(); i++) {
+                    for (int i = 0; i < tmp.length(); i++)
                         euvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
-                    }
                 } catch (Exception e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("No internet connection")
@@ -322,9 +409,8 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 JSONArray tmp;
                 try {
                     tmp = jp.getjObj().getJSONArray("features");
-                    for (int i = 0; i < tmp.length(); i++) {
+                    for (int i = 0; i < tmp.length(); i++)
                         weltvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
-                    }
                 } catch (Exception e) {
                     new AlertDialog.Builder(getContext())
                             .setTitle("No internet connection")
@@ -343,24 +429,50 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             return null;
         }
 
+        /**
+         * Gets called after executing the background task
+         *
+         * @param strFromDoInBg string
+         */
         @Override
         protected void onPostExecute(String strFromDoInBg) {
             mDialog.dismiss();
             fm.writeObject(FileManager.AT_FILE, atvalues, getContext());
             fm.writeObject(FileManager.EU_FILE, euvalues, getContext());
             fm.writeObject(FileManager.WORLD_FILE, weltvalues, getContext());
-            at = new OneFragment(atvalues, "AT", mLastLocation);
-            eu = new OneFragment(euvalues, "EU", mLastLocation);
-            welt = new OneFragment(weltvalues, "WORLD", mLastLocation);
+            at = new OneFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("values", atvalues);
+            args.putString("tabname", "AT");
+            args.putParcelable("mLastLocation", mLastLocation);
+            at.setArguments(args);
+            eu = new OneFragment();
+            Bundle args2 = new Bundle();
+            args2.putSerializable("values", euvalues);
+            args2.putString("tabname", "EU");
+            args2.putParcelable("mLastLocation", mLastLocation);
+            eu.setArguments(args2);
+            welt = new OneFragment();
+            Bundle args3 = new Bundle();
+            args3.putSerializable("values", weltvalues);
+            args3.putString("tabname", "WORLD");
+            args3.putParcelable("mLastLocation", mLastLocation);
+            welt.setArguments(args3);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
     }
 
-    class LatestOperation extends AsyncTask<String, String, String> {
+    /**
+     * Task for fetching the latest reference quakes
+     */
+    private class LatestOperation extends AsyncTask<String, String, String> {
 
-        ProgressDialog mDialog;
+        private ProgressDialog mDialog;
 
+        /**
+         * Gets called before executing the background task
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -371,25 +483,34 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
             mDialog.show();
         }
 
+        /**
+         * background activity
+         *
+         * @param params the params
+         * @return null
+         */
         @Override
         protected String doInBackground(String... params) {
-
             JSONLoader jp;
             if (latest.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.LATEST);
                 JSONArray tmp;
                 try {
                     tmp = jp.getjObj().getJSONArray("features");
-                    for (int i = 0; i < tmp.length(); i++) {
+                    for (int i = 0; i < tmp.length(); i++)
                         latest.add(new LatestQuake(tmp.getJSONObject(i)));
-                    }
                 } catch (Exception e) {
+                    Log.e(TAG, "Error while fetching latest quakes: " + e.getMessage());
                 }
             }
             return null;
-
         }
 
+        /**
+         * Gets called after executing the background task
+         *
+         * @param strFromDoInBg string
+         */
         @Override
         protected void onPostExecute(String strFromDoInBg) {
             mDialog.dismiss();
@@ -405,35 +526,65 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 }
                 startActivity(i);
             }
-            if (latest.isEmpty()) {
+            if (latest.isEmpty())
                 Toast.makeText(getActivity(), "Keine Datenverbindung", Toast.LENGTH_LONG).show();
-            }
         }
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    /**
+     * View Pager Adapter
+     */
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        /**
+         * Initiates the ViewPager Adapter
+         *
+         * @param manager the fragment manager
+         */
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
+        /**
+         * Returns fragment on desired position
+         *
+         * @param position the position
+         * @return the fragment
+         */
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
 
+        /**
+         * Gets the fragment lists size
+         *
+         * @return size
+         */
         @Override
         public int getCount() {
             return mFragmentList.size();
         }
 
+        /**
+         * Adds a fragment
+         *
+         * @param fragment fragment
+         * @param title    title
+         */
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
 
+        /**
+         * Get the page title
+         *
+         * @param position the position
+         * @return the title
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);

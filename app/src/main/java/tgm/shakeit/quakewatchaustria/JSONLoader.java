@@ -19,7 +19,7 @@ import java.net.URLConnection;
  * @author Daniel May
  * @version 2016-05-11.1
  */
-public class JSONLoader {
+class JSONLoader {
 
     public static final String EU = "http://geoweb.zamg.ac.at/eq_app/eu_latest.json";
     public static final String AT = "http://geoweb.zamg.ac.at/eq_app/at_latest.json";
@@ -52,7 +52,6 @@ public class JSONLoader {
         } catch (MalformedURLException e) {
             Log.e(TAG, "The URL is malformed: " + e.toString());
         } catch (IOException e) {
-            //gui.makeToast(R.string.loading_error);
             System.err.println("Toast");
             Log.e(TAG, "Error receiving the data: " + e.toString());
         } catch (JSONException e) {

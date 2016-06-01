@@ -9,19 +9,38 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ComicArrayAdapter extends ArrayAdapter<Comic> {
+/**
+ * Maps an array of comic model data to a listview.
+ *
+ * @author Daniel May
+ * @version 2016-06-01.1
+ */
+class ComicArrayAdapter extends ArrayAdapter<Comic> {
 
-    private Context context;
-    private int layoutResourceId;
+    private final Context context;
+    private final int layoutResourceId;
     private Comic[] data = null;
 
-    public ComicArrayAdapter(Context context, int layoutResourceId, Comic[] data) {
-        super(context, layoutResourceId, data);
-        this.layoutResourceId = layoutResourceId;
+    /**
+     * Initiates the adapter and saves the provided parameters
+     *  @param context          Application Context
+     * @param data             the comic array
+     */
+    public ComicArrayAdapter(Context context, Comic[] data) {
+        super(context, R.layout.custom_comic_row, data);
+        this.layoutResourceId = R.layout.custom_comic_row;
         this.context = context;
         this.data = data;
     }
 
+    /**
+     * Gets a single row view.
+     *
+     * @param position    the position in the array/listview
+     * @param convertView the row's view
+     * @param parent      the row's parent view
+     * @return the row's view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -45,6 +64,9 @@ public class ComicArrayAdapter extends ArrayAdapter<Comic> {
         return row;
     }
 
+    /**
+     * ViewHolder pattern for improved performance
+     */
     static class ComicHolder {
         ImageView imgIcon;
         TextView txtTitle;

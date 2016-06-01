@@ -14,10 +14,10 @@
         android:layout_marginStart="54dp"
         android:gravity="center_vertical|center_horizontal"
         android:padding="0dp"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewLocation"
@@ -33,10 +33,10 @@
         android:gravity="center"
         android:maxLines="1"
         android:singleLine="true"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewDatum"
@@ -45,9 +45,9 @@
         android:layout_alignBottom="@+id/textViewLocation"
         android:layout_alignLeft="@+id/textViewTime"
         android:layout_alignStart="@+id/textViewTime"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="16sp"
-        android:text="" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textViewTime"
@@ -58,20 +58,20 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="54dp"
         android:layout_marginRight="54dp"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="32sp"
-        android:textStyle="bold"
-        android:text="" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewOrt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text=""
         android:layout_alignTop="@+id/textViewLocation2"
+        android:layout_toEndOf="@+id/textViewLocation"
         android:layout_toRightOf="@+id/textViewLocation"
-        android:layout_toEndOf="@+id/textViewLocation" />
+        android:text=""
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textViewLocation2"
@@ -92,137 +92,139 @@
         android:textStyle="bold" />
 
     <SurfaceView
+        android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:id="@+id/surfaceView"
-        android:foreground="@color/colorPrimary"
-        android:layout_below="@+id/textViewLocation"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textViewLocation"
+        android:layout_marginTop="10dp"
+        android:foreground="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/textViewCoordsSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewCoordsSet"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/surfaceView"
         android:layout_alignLeft="@+id/textViewLocation"
         android:layout_alignStart="@+id/textViewLocation"
-        android:text="Ort"
+        android:layout_below="@+id/surfaceView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/city"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp" />
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textViewCoords"
-        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/textViewDepthSet"
-        android:layout_toRightOf="@+id/textViewDepthSet"
-        android:layout_alignTop="@+id/textViewCoordsSet"
+        android:layout_alignEnd="@+id/textViewLocation2"
         android:layout_alignRight="@+id/textViewLocation2"
-        android:layout_alignEnd="@+id/textViewLocation2" />
+        android:layout_alignTop="@+id/textViewCoordsSet"
+        android:layout_toEndOf="@+id/textViewDepthSet"
+        android:layout_toRightOf="@+id/textViewDepthSet"
+        android:textSize="16sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textViewDepthSet"
-        android:layout_marginTop="23dp"
-        android:text="Tiefe"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@+id/textViewCoordsSet"
-        android:layout_alignLeft="@+id/textViewCoordsSet"
-        android:layout_alignStart="@+id/textViewCoordsSet" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textViewDepth"
+        android:layout_alignLeft="@+id/textViewCoordsSet"
+        android:layout_alignStart="@+id/textViewCoordsSet"
+        android:layout_below="@+id/textViewCoordsSet"
+        android:layout_marginTop="23dp"
+        android:text="@string/depth"
         android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewDepth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/textViewDistSet"
         android:layout_alignLeft="@+id/textViewCoords"
         android:layout_alignStart="@+id/textViewCoords"
         android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewDistSet"
-        android:layout_marginTop="23dp"
-        android:text="Entfernungen"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@+id/textViewDepthSet"
-        android:layout_alignLeft="@+id/textViewDepthSet"
-        android:layout_alignStart="@+id/textViewDepthSet" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
         android:text=""
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewDistSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewDepthSet"
+        android:layout_alignStart="@+id/textViewDepthSet"
+        android:layout_below="@+id/textViewDepthSet"
+        android:layout_marginTop="23dp"
+        android:text="@string/distances"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/textViewDist1"
-        android:layout_below="@+id/textViewDistSet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textViewDistSet"
         android:layout_alignStart="@+id/textViewDistSet"
-        android:layout_marginTop="5dp" />
+        android:layout_below="@+id/textViewDistSet"
+        android:layout_marginTop="5dp"
+        android:text="" />
 
     <TextView
+        android:id="@+id/textViewDist2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textViewDist2"
-        android:layout_below="@+id/textViewDist1"
         android:layout_alignLeft="@+id/textViewDist1"
         android:layout_alignStart="@+id/textViewDist1"
-        android:layout_marginTop="2dp" />
+        android:layout_below="@+id/textViewDist1"
+        android:layout_marginTop="2dp"
+        android:text="" />
 
     <TextView
+        android:id="@+id/textViewDist3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textViewDist3"
-        android:layout_below="@+id/textViewDist2"
         android:layout_alignLeft="@+id/textViewDist2"
         android:layout_alignStart="@+id/textViewDist2"
-        android:layout_marginTop="2dp" />
+        android:layout_below="@+id/textViewDist2"
+        android:layout_marginTop="2dp"
+        android:text="" />
 
     <TextView
+        android:id="@+id/textViewDist4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textViewDist4"
-        android:layout_below="@+id/textViewDist3"
         android:layout_alignLeft="@+id/textViewDist3"
         android:layout_alignStart="@+id/textViewDist3"
-        android:layout_marginTop="2dp" />
+        android:layout_below="@+id/textViewDist3"
+        android:layout_marginTop="2dp"
+        android:text="" />
 
     <SurfaceView
+        android:id="@+id/surfaceView2"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:id="@+id/surfaceView2"
-        android:foreground="@color/colorPrimary"
-        android:layout_below="@+id/textViewDist4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp" />
+        android:layout_below="@+id/textViewDist4"
+        android:layout_marginTop="15dp"
+        android:foreground="@color/colorPrimary" />
 
     <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/map"
-        android:layout_below="@+id/surfaceView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/surfaceView2"
         android:layout_marginTop="5dp" />
 
 </RelativeLayout>

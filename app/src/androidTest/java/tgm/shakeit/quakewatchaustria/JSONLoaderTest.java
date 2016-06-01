@@ -56,12 +56,8 @@ public class JSONLoaderTest extends AndroidTestCase {
     /**
      * tests if the array
      */
-    public void testInterpretation() {
+    public void testInterpretation() throws JSONException {
         jp = new JSONLoader(JSONLoader.AT);
-        try {
-            jp.getjObj().getJSONArray("features");
-        } catch (JSONException e) {
-            fail();
-        }
+        jp.getjObj().getJSONArray("features");
     }
 }

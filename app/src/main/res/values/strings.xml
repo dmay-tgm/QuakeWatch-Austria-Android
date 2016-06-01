@@ -4,8 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="loading_error">Daten konnten nicht geladen werden.</string>
     <string name="quake_list">Erdbebenliste</string>
     <string name="behavior_advisor">Verhaltensratgeber</string>
     <string name="lexicon">Lexikon</string>
@@ -20,7 +18,7 @@
     <string name="team_members">Daniel May, Moritz Mühlehner, Lukas Sträßler, Martin Weber</string>
     <string name="developer">Entwickler:</string>
     <string name="tgm_title">&lt;b>tgm&lt;/b> - HTBLuVA Wien XX</string>
-    <string name="tgm_address">Wexstraße 19-23, 1200 Wien</string>
+    <string name="tgm_address">Wexstraße 19–23, 1200 Wien</string>
     <string name="owner">Medieninhaber und Herausgeber:</string>
     <string name="zamg">Zentralanstalt für Meteorologie und Geodynamik (ZAMG)</string>
     <string name="zamg_address">&lt;b>Adresse:&lt;/b> 1190 Wien, Hohe Warte 38, Österreich</string>
@@ -31,7 +29,6 @@
     <string name="copyright_details">Die Inhalte dieser Applikation sind urheberrechtlich geschützt und nur für den persönlichen Gebrauch bestimmt. Jede weitergehende Verwendung oder Reproduktion der Inhalte dieser Applikation, insbesondere die kommerzielle Nutzung und Weitergabe an Dritte bedarf der ausdrücklichen Zustimmung der ZAMG. Die Entfernung oder Abänderung der Copyright-Vermerke ist keinesfalls gestattet.</string>
     <string name="copyright_brand">Das Logo der ZAMG ist eine im Markenregister des österreichischen Patentamtes eingetragene Marke.</string>
     <string name="agb">Unsere Allgemeinen Geschäftsbedingungen (AGB) finden Sie &lt;a href="http://zamg.at/docs/wir_ueber_uns/AGB_ZAMG_2010-09-01.pdf">hier&lt;a>.</string>
-    <string name="choose_strength">Stärke wählen</string>
     <string name="strength_explain">Bitte wählen Sie die Stärke des verspürten Erdbebens anhand folgender Comics aus:</string>
     <string name="loc_hint">Bitte füllen Sie folgende Detailinformationen aus, damit Ihre Meldung sinnvoll verarbeitet werden kann.</string>
     <string name="plz">Postleitzahl</string>
@@ -43,4 +40,13 @@
     <string name="contact">Kontaktdaten</string>
     <string name="zamg_mail_address">seismo@zamg.ac.at</string>
     <string name="mail_info">Bitte schicken Sie Fotos von eventuellen Schäden an:</string>
+    <string name="referenz_hint">Möglicherweise wurde das von Ihnen verspürte Erdbeben bereits registriert. Bitte wählen Sie ein Referenzbeben, falls Sie glauben eines dieser verspürt zu haben.</string>
+    <string name="accessibility_comic">Comic zur Visualisierung der Auswirkungen</string>
+    <string name="city">Ort</string>
+    <string name="depth">Tiefe</string>
+    <string name="distances">Entfernungen</string>
+    <string name="tgm_logo">TGM Logo</string>
+    <string name="zamg_logo">ZAMG Logo</string>
+    <string name="quakewatch_austria_logo">QuakeWatch Austria Logo</string>
+    <string name="distance_from_phone0">%s von Ihrem Standort</string>
 </resources>

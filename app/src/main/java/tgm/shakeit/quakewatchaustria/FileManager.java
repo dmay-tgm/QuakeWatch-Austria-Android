@@ -16,7 +16,7 @@ import java.io.ObjectOutputStream;
  * @author Daniel May
  * @version 2016-05-23.1
  */
-public class FileManager<T> {
+class FileManager<T> {
     public static final String EU_FILE = "eu.ser";
     public static final String AT_FILE = "at.ser";
     public static final String WORLD_FILE = "world.ser";
@@ -57,6 +57,7 @@ public class FileManager<T> {
         try {
             FileInputStream inputStream = context.openFileInput(filename);
             ObjectInputStream ois = new ObjectInputStream(inputStream);
+            //noinspection unchecked
             desiredObject = (T) ois.readObject();
             ois.close();
             inputStream.close();

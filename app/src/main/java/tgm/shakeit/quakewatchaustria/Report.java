@@ -17,7 +17,7 @@ import java.text.DecimalFormatSymbols;
  * @author Daniel May
  * @version 2016-05-23.1
  */
-public class Report {
+class Report {
     private static final String TAG = "Report.java";
     private static JSONObject addquestions = new JSONObject();
     private static String referenzID, locLon, locLat, locPrecision, locLastUpdate, mlocPLZ, mlocOrtsname, verspuert, kommentar, kontakt;
@@ -214,6 +214,7 @@ public class Report {
             result.put("kontakt", kontakt == null ? JSONObject.NULL : kontakt);
             result.put("addquestions", addquestions);
             clear();
+            //for testing purposes
             System.out.println(result);
             return result;
         } catch (JSONException e) {

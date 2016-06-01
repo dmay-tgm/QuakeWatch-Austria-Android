@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @author Daniel May
  * @version 2016-05-11.1
  */
-public class Erdbeben implements Serializable {
+class Erdbeben implements Serializable {
     private static final String TAG = "Erdbeben.java";
     private final DecimalFormatSymbols decimalSymbol;
     /**

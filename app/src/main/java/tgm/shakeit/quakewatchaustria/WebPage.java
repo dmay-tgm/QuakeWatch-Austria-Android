@@ -18,14 +18,22 @@ import android.widget.ProgressBar;
 
 /**
  * Creates a new Fragment and loads the correct WebPage.
+ *
+ * @author Daniel May
+ * @version 2016-06-01.1
  */
 public class WebPage extends Fragment {
 
     private ProgressBar mPbar = null;
 
-    public WebPage() {
-    }
-
+    /**
+     * Gets called on inflating the view
+     *
+     * @param inflater           the inflater
+     * @param container          the container that contains the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment's view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,11 +46,22 @@ public class WebPage extends Fragment {
         wv.getSettings().setJavaScriptEnabled(true);
         wv.getSettings().setBuiltInZoomControls(true);
         wv.setWebViewClient(new WebViewClient() {
+            /**
+             * Gets called when loading a page starts
+             * @param view the webview
+             * @param url the url
+             * @param favicon tge icon
+             */
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 mPbar.setVisibility(View.VISIBLE);
             }
 
+            /**
+             * Gets called when loading a page finishes
+             * @param view the webview
+             * @param url the url
+             */
             @Override
             public void onPageFinished(WebView view, String url) {
                 mPbar.setVisibility(View.GONE);
