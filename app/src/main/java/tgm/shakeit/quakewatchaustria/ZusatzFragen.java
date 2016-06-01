@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,12 +31,12 @@ import java.util.ArrayList;
 public class ZusatzFragen extends AppCompatActivity{
 
     private int staerke;
-    private static TextView tv2,tv3,tv4;
+    private static TextView tv2,tv3,tv4,sbvalue;
     private Switch sw1,sw2,sw3;
     private CheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7;
     private FloatingActionButton next;
-    private ScrollView sv;
-    private NumberPicker np;
+    private LinearLayout layout;
+    private SeekBar sb;
 
 
 
@@ -56,31 +58,52 @@ public class ZusatzFragen extends AppCompatActivity{
         cb5 = (CheckBox) findViewById(R.id.checkBox5);
         cb6 = (CheckBox) findViewById(R.id.checkBox6);
         cb7 = (CheckBox) findViewById(R.id.checkBox7);
-        sv = (ScrollView) findViewById(R.id.scrollview);
-        np = (NumberPicker) findViewById(R.id.numberPicker);
-        np.setMaxValue(100);
-        np.setMinValue(0);
+        layout = (LinearLayout) findViewById(R.id.linearLayout);
+        sb = (SeekBar) findViewById(R.id.seekBar);
+        sb.incrementProgressBy(1);
+        sb.setMax(4);
+        sbvalue = (TextView) findViewById(R.id.textView5);
+        sbvalue.setText(""+sb.getProgress());
         next = (FloatingActionButton) findViewById(R.id.next);
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(progress==sb.getMax())
+                    sbvalue.setText("4 oder höher");
+                else
+                    sbvalue.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         staerke = (int) getIntent().getExtras().getSerializable("staerke");
         switch (staerke) {
             case 1:
-                tv2.setVisibility(View.INVISIBLE);
-                tv3.setVisibility(View.INVISIBLE);
-                tv4.setVisibility(View.INVISIBLE);
-                sw1.setVisibility(View.INVISIBLE);
-                sw2.setVisibility(View.INVISIBLE);
-                sw3.setVisibility(View.INVISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.GONE);
+                tv3.setVisibility(View.GONE);
+                tv4.setVisibility(View.GONE);
+                sw1.setVisibility(View.GONE);
+                sw2.setVisibility(View.GONE);
+                sw3.setVisibility(View.GONE);
+                layout.setVisibility(View.GONE);
 
             case 2:
-                tv2.setVisibility(View.INVISIBLE);
-                tv3.setVisibility(View.INVISIBLE);
-                tv4.setVisibility(View.INVISIBLE);
-                sw1.setVisibility(View.INVISIBLE);
-                sw2.setVisibility(View.INVISIBLE);
-                sw3.setVisibility(View.INVISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.GONE);
+                tv3.setVisibility(View.GONE);
+                tv4.setVisibility(View.GONE);
+                sw1.setVisibility(View.GONE);
+                sw2.setVisibility(View.GONE);
+                sw3.setVisibility(View.GONE);
+                layout.setVisibility(View.GONE);
 
             case 3:
                 tv2.setVisibility(View.VISIBLE);
@@ -92,7 +115,7 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw1.setVisibility(View.VISIBLE);
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.GONE);
 
             case 4:
                 tv2.setVisibility(View.VISIBLE);
@@ -104,7 +127,7 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw1.setVisibility(View.VISIBLE);
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.GONE);
 
             case 5:
                 tv2.setVisibility(View.VISIBLE);
@@ -116,7 +139,7 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw1.setVisibility(View.VISIBLE);
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.GONE);
 
             case 6:
                 tv2.setVisibility(View.VISIBLE);
@@ -128,25 +151,29 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw1.setVisibility(View.VISIBLE);
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
-                sv.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.GONE);
 
         }
         sw3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(sw3.isChecked()){
-                    sv.setVisibility(View.VISIBLE);
+                    layout.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    sv.setVisibility(View.INVISIBLE);
+                    layout.setVisibility(View.GONE);
                 }
             }
         });
         next.setOnClickListener(new FloatingActionButton.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Report.setFloor(np.getValue());
+            int floor = sb.getProgress();
+            if(floor<4)
+                Report.setFloor(floor);
+            else
+            Report.setFloor(4);
             switch (staerke) {
                 case 3:
                     Report.addZusatz(1,sw1.isChecked());
@@ -185,10 +212,10 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(12,cb5.isChecked());
                     Report.addZusatz(13,cb6.isChecked());
                     Report.addZusatz(14,cb7.isChecked());
-
             }
             Intent i = new Intent(getApplicationContext(), ContactPage.class);
             startActivity(i);
+
         }
     });
 

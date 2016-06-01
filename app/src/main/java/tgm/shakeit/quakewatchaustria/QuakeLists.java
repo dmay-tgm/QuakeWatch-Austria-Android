@@ -337,6 +337,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
     private class Operation extends AsyncTask<String, String, String> {
 
         private ProgressDialog mDialog;
+        private boolean loaded;
 
         /**
          * Gets called before executing the background task
@@ -359,6 +360,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
          */
         @Override
         protected String doInBackground(String... params) {
+            loaded=true;
             JSONLoader jp;
             if (atvalues.isEmpty()) {
                 jp = new JSONLoader(JSONLoader.AT);
@@ -368,18 +370,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                     for (int i = 0; i < tmp.length(); i++)
                         atvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                 } catch (Exception e) {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("No internet connection")
-                            .setMessage("Please turn on mobile data")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                }
-
-                            })
-                            .setCancelable(false)
-                            .show();
+                    loaded=false;
                 }
             }
             if (euvalues.isEmpty()) {
@@ -390,18 +381,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                     for (int i = 0; i < tmp.length(); i++)
                         euvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                 } catch (Exception e) {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("No internet connection")
-                            .setMessage("Please turn on mobile data")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                }
-
-                            })
-                            .setCancelable(false)
-                            .show();
+                    loaded=false;
                 }
             }
             if (weltvalues.isEmpty()) {
@@ -412,18 +392,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                     for (int i = 0; i < tmp.length(); i++)
                         weltvalues.add(new Erdbeben(tmp.getJSONObject(i), mLastLocation));
                 } catch (Exception e) {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("No internet connection")
-                            .setMessage("Please turn on mobile data")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                }
-
-                            })
-                            .setCancelable(false)
-                            .show();
+                    loaded=false;
                 }
             }
             return null;
@@ -437,29 +406,34 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
         @Override
         protected void onPostExecute(String strFromDoInBg) {
             mDialog.dismiss();
-            fm.writeObject(FileManager.AT_FILE, atvalues, getContext());
-            fm.writeObject(FileManager.EU_FILE, euvalues, getContext());
-            fm.writeObject(FileManager.WORLD_FILE, weltvalues, getContext());
-            at = new OneFragment();
-            Bundle args = new Bundle();
-            args.putSerializable("values", atvalues);
-            args.putString("tabname", "AT");
-            args.putParcelable("mLastLocation", mLastLocation);
-            at.setArguments(args);
-            eu = new OneFragment();
-            Bundle args2 = new Bundle();
-            args2.putSerializable("values", euvalues);
-            args2.putString("tabname", "EU");
-            args2.putParcelable("mLastLocation", mLastLocation);
-            eu.setArguments(args2);
-            welt = new OneFragment();
-            Bundle args3 = new Bundle();
-            args3.putSerializable("values", weltvalues);
-            args3.putString("tabname", "WORLD");
-            args3.putParcelable("mLastLocation", mLastLocation);
-            welt.setArguments(args3);
-            setupViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
+            if(loaded) {
+                fm.writeObject(FileManager.AT_FILE, atvalues, getContext());
+                fm.writeObject(FileManager.EU_FILE, euvalues, getContext());
+                fm.writeObject(FileManager.WORLD_FILE, weltvalues, getContext());
+                at = new OneFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("values", atvalues);
+                args.putString("tabname", "AT");
+                args.putParcelable("mLastLocation", mLastLocation);
+                at.setArguments(args);
+                eu = new OneFragment();
+                Bundle args2 = new Bundle();
+                args2.putSerializable("values", euvalues);
+                args2.putString("tabname", "EU");
+                args2.putParcelable("mLastLocation", mLastLocation);
+                eu.setArguments(args2);
+                welt = new OneFragment();
+                Bundle args3 = new Bundle();
+                args3.putSerializable("values", weltvalues);
+                args3.putString("tabname", "WORLD");
+                args3.putParcelable("mLastLocation", mLastLocation);
+                welt.setArguments(args3);
+                setupViewPager(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
+            }
+            else{
+                Toast.makeText(getContext(),"Erdbeben konnten nicht geladen werden",Toast.LENGTH_LONG);
+            }
         }
     }
 
