@@ -44,4 +44,11 @@
     <string name="zamg_mail_address">seismo@zamg.ac.at</string>
     <string name="mail_info">Bitte schicken Sie Fotos von eventuellen Schäden an:</string>
     <string name="referenz_hint">Möglicherweise wurde das von Ihnen verspürte Erdbeben bereits registriert. Bitte wählen Sie ein Referenzbeben, falls Sie glauben eines dieser verspürt zu haben.</string>
+    <string name="accessibility_comic">Comic zur Visualisierung der Auswirkungen</string>
+    <string name="city">Ort</string>
+    <string name="depth">Tiefe</string>
+    <string name="distances">Entfernungen</string>
+    <string name="tgm_logo">TGM Logo</string>
+    <string name="zamg_logo">ZAMG Logo</string>
+    <string name="quakewatch_austria_logo">QuakeWatch Austria Logo</string>
 </resources>
