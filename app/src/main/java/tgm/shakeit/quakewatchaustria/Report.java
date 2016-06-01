@@ -1,6 +1,7 @@
 package tgm.shakeit.quakewatchaustria;
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.joda.time.DateTime;
@@ -197,6 +198,7 @@ public class Report {
      *
      * @return the JSON Object to send to the ZAMG
      */
+    @NonNull
     public static JSONObject toJSON() {
         JSONObject result = new JSONObject();
         try {
@@ -214,6 +216,7 @@ public class Report {
             result.put("kontakt", kontakt == null ? JSONObject.NULL : kontakt);
             result.put("addquestions", addquestions);
             clear();
+            //for testing purposes
             System.out.println(result);
             return result;
         } catch (JSONException e) {

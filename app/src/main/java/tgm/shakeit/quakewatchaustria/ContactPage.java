@@ -19,7 +19,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
  */
 public class ContactPage extends AppCompatActivity {
     private TextInputEditText comment, contact;
-    private FloatingActionButton fab;
 
     /**
      * Inflates the layout.
@@ -34,7 +33,7 @@ public class ContactPage extends AppCompatActivity {
         contact = (TextInputEditText) findViewById(R.id.input_contact);
         comment = (TextInputEditText) findViewById(R.id.input_comment);
 
-        fab = (FloatingActionButton) findViewById(R.id.send);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.send);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 /**
@@ -60,8 +59,8 @@ public class ContactPage extends AppCompatActivity {
      */
     private class SendOperation extends AsyncTask<String, String, String> {
 
-        ProgressDialog mDialog;
-        JSONSender js;
+        private ProgressDialog mDialog;
+        private JSONSender js;
 
         /**
          * Gets called before executing

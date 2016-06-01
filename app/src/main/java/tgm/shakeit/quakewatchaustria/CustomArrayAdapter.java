@@ -17,25 +17,14 @@ import java.util.List;
 
 /**
  * Usage:   Adapter for the ListViews to process data
- * sets the color Codes for depending on magnitude
+ * sets the color Codes depending on magnitude
+ *
+ * @author Moritz Mühlehner
+ * @version 2016-06-01.1
  */
-public class CustomArrayAdapter extends ArrayAdapter {
+public class CustomArrayAdapter extends ArrayAdapter<Erdbeben> {
 
-    public final static String[] colorCodes2 = {
-            //Green
-            "#3EA739", "#338B2E", "#296F25",
-            //Yellow
-            "#FBFE00", "#D5D800", "#B1B300",
-            //Blue
-            "#39508A", "#2F4273", "#25355C",
-            //Orange
-            "#FFA415", "#FF9C00", "#E98F00",
-            //Purple
-            "#D91283", "#BB006A",
-            //Red
-            "#CA0000"
-    };
-    public final static String[] colorCodes = {
+    private final static String[] colorCodes = {
             //Green
             "#66BB6A", "#4CAF50", "#43A047",
             //Yellow
@@ -54,17 +43,21 @@ public class CustomArrayAdapter extends ArrayAdapter {
     private List<Erdbeben> data;
 
     /**
-     * Constructor
+     * Initializes the array adapter and saves the array.
      *
-     * @param context  --> context
-     * @param resource --> resource hand over for processing
+     * @param context  context
+     * @param resource resource hand over for processing
      */
     public CustomArrayAdapter(Context context, ArrayList<Erdbeben> resource) {
         super(context, R.layout.customrow, resource);
         data = resource;
-        // this.strich=1;
     }
 
+    /**
+     * Sets the data.
+     *
+     * @param temp the list of earthquakes
+     */
     public void setData(List<Erdbeben> temp) {
         this.data = temp;
         notifyDataSetChanged();
@@ -74,12 +67,12 @@ public class CustomArrayAdapter extends ArrayAdapter {
      * Override Method
      * Called When: This Method is called when the ViewPagerAdapter
      * generates the Fragments
-     * And the single Erdbeben Objects are created and hand over as resource
+     * And the single earthquake Objects are created and hand over as resource
      * Usage:       Calculates necessary Information about List Item
      *
-     * @param position    --> position in ListView
-     * @param convertView --> the View the ListView belongs to
-     * @param parent      --> the parent ViewGroup
+     * @param position    position in ListView
+     * @param convertView the View the ListView belongs to
+     * @param parent      the parent ViewGroup
      * @return the row view
      */
     @Override
@@ -101,7 +94,7 @@ public class CustomArrayAdapter extends ArrayAdapter {
          * and defined
          */
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.customrow, null);
+            convertView = inflater.inflate(R.layout.customrow, parent, false);
             holder = new ViewHolder();
             holder.textMag = (TextView) convertView.findViewById(R.id.listText);
 //            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
@@ -171,73 +164,40 @@ public class CustomArrayAdapter extends ArrayAdapter {
          * This if divides by the magnitude which color to use
          */
         if ((mag >= 0) && (mag <= 2.49)) {
-            if ((mag >= 0) && (mag <= 1.49)) {
+            if ((mag >= 0) && (mag <= 1.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[0]));
-            }
-            if ((mag >= 1.50) && (mag <= 1.99)) {
+            if ((mag >= 1.50) && (mag <= 1.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[1]));
-
-            }
-            if ((mag >= 2.00) && (mag <= 2.49)) {
+            if ((mag >= 2.00) && (mag <= 2.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[2]));
-
-            }
-
         } /*NEXT COLOR*/ else if ((mag >= 2.50) && (mag <= 3.99)) {
-            if ((mag >= 2.50) && (mag <= 2.99)) {
+            if ((mag >= 2.50) && (mag <= 2.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[2]));
-
-            }
-            if ((mag >= 3.0) && (mag <= 3.49)) {
+            if ((mag >= 3.0) && (mag <= 3.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[4]));
-
-            }
-            if ((mag >= 3.5) && (mag <= 3.99)) {
+            if ((mag >= 3.5) && (mag <= 3.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[5]));
-
-            }
-
         }/*NEXT COLOR*/ else if ((mag >= 4) && (mag <= 5.49)) {
-            if ((mag >= 4) && (mag <= 4.49)) {
+            if ((mag >= 4) && (mag <= 4.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[6]));
-
-            }
-            if ((mag >= 4.5) && (mag <= 4.99)) {
+            if ((mag >= 4.5) && (mag <= 4.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[7]));
-
-            }
-            if ((mag >= 5) && (mag <= 5.49)) {
+            if ((mag >= 5) && (mag <= 5.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[8]));
-
-            }
-
         }/*NEXT COLOR*/ else if ((mag >= 5.5) && (mag <= 6.99)) {
-            if ((mag >= 5.5) && (mag <= 5.99)) {
+            if ((mag >= 5.5) && (mag <= 5.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[9]));
-
-            }
-            if ((mag >= 6) && (mag <= 6.49)) {
+            if ((mag >= 6) && (mag <= 6.49))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[10]));
-
-            }
-            if ((mag >= 6.5) && (mag <= 6.99)) {
+            if ((mag >= 6.5) && (mag <= 6.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[11]));
-
-            }
-
         }/*NEXT COLOR*/ else if ((mag >= 7) && (mag <= 8.99)) {
-            if ((mag >= 7) && (mag <= 7.99)) {
+            if ((mag >= 7) && (mag <= 7.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[12]));
-
-            }
-            if ((mag >= 8) && (mag <= 8.99)) {
+            if ((mag >= 8) && (mag <= 8.99))
                 holder.textMag.setTextColor(Color.parseColor(colorCodes[14]));
-
-            }
-        }/*NEXT COLOR*/ else if ((mag >= 9) && (mag <= 12)) {
+        }/*NEXT COLOR*/ else if ((mag >= 9) && (mag <= 12))
             holder.textMag.setTextColor(Color.parseColor(colorCodes[14]));
-
-        }
         if ((position > lastPosition)) {
             Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
             animation.setDuration(300);
@@ -259,8 +219,5 @@ public class CustomArrayAdapter extends ArrayAdapter {
         TextView time;
         TextView ort;
         TextView date;
-
     }
 }
-
-
