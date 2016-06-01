@@ -6,15 +6,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
+/**
+ * Activity for displaying a list of comics to choose from.
+ *
+ * @author Daniel May
+ * @version 2016-06-01.1
+ */
 public class ComicPage extends AppCompatActivity {
-    private String[] title;
 
+    /**
+     * Initializes the comic page view.
+     *
+     * @param savedInstanceState the saved instance state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comic_page);
-        title = getResources().getStringArray(R.array.report_title_array);
+        String[] title = getResources().getStringArray(R.array.report_title_array);
         String[] detail = getResources().getStringArray(R.array.report_detail_array);
 
         Comic weather_data[] = new Comic[]
@@ -65,7 +74,6 @@ public class ComicPage extends AppCompatActivity {
 //                            intent.putExtra("staerke", 6);
                             Report.setKlass(6);
                             break;
-
                     }
 //                    startActivity(intent);
                 }
