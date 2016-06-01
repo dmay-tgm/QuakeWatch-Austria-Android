@@ -2,7 +2,6 @@ package tgm.shakeit.quakewatchaustria;
 
 import android.location.Location;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -51,150 +50,129 @@ public class ErdbebenTest extends AndroidTestCase {
     /**
      * test if the data could be interpreted.
      */
-    public void testAt() {
+    public void testAt() throws JSONException {
         JSONArray tmp;
-        try {
-            tmp = jp.getjObj().getJSONArray("features");
-            for (int i = 0; i < tmp.length(); i++) {
-                Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
-                System.out.println("Magnitude: " + quake.getMag());
-                System.out.println("Region: " + quake.getRegion());
-                System.out.println("Ort: " + quake.getOrt());
-                System.out.println("Datum: " + quake.getDate());
-                System.out.println("Zeit: " + quake.getTime());
-                System.out.println("Koordinaten: " + quake.getCords());
-                System.out.println("Tiefe: " + quake.getDepth());
-                System.out.println("Distanz: " + quake.getDistance());
-                assertNotNull(quake.getDist());
-                for (String abstand : quake.getDist()) {
-                    System.out.println("Entfernung: " + abstand);
-                    assertNotNull(abstand);
-                }
-                System.out.println("---------------------------");
-                assertNotNull(quake.getMag());
-                assertNotNull(quake.getRegion());
-                assertNotNull(quake.getOrt());
-                assertNotNull(quake.getDate());
-                assertNotNull(quake.getTime());
-                assertNotNull(quake.getCords());
-                assertNotNull(quake.getDepth());
-                assertNotNull(quake.getDistance());
+        tmp = jp.getjObj().getJSONArray("features");
+        for (int i = 0; i < tmp.length(); i++) {
+            Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
+            System.out.println("Magnitude: " + quake.getMag());
+            System.out.println("Region: " + quake.getRegion());
+            System.out.println("Ort: " + quake.getOrt());
+            System.out.println("Datum: " + quake.getDate());
+            System.out.println("Zeit: " + quake.getTime());
+            System.out.println("Koordinaten: " + quake.getCords());
+            System.out.println("Tiefe: " + quake.getDepth());
+            System.out.println("Distanz: " + quake.getDistance());
+            assertNotNull(quake.getDist());
+            for (String abstand : quake.getDist()) {
+                System.out.println("Entfernung: " + abstand);
+                assertNotNull(abstand);
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
+            System.out.println("---------------------------");
+            assertNotNull(quake.getMag());
+            assertNotNull(quake.getRegion());
+            assertNotNull(quake.getOrt());
+            assertNotNull(quake.getDate());
+            assertNotNull(quake.getTime());
+            assertNotNull(quake.getCords());
+            assertNotNull(quake.getDepth());
+            assertNotNull(quake.getDistance());
         }
     }
 
     /**
      * test if the data could be interpreted.
      */
-    public void testEu() {
+    public void testEu() throws JSONException {
         jp = new JSONLoader(JSONLoader.EU);
         JSONArray tmp;
-        try {
-            tmp = jp.getjObj().getJSONArray("features");
-            for (int i = 0; i < tmp.length(); i++) {
-                Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
-                System.out.println("Magnitude: " + quake.getMag());
-                System.out.println("Region: " + quake.getRegion());
-                System.out.println("Ort: " + quake.getOrt());
-                System.out.println("Datum: " + quake.getDate());
-                System.out.println("Zeit: " + quake.getTime());
-                System.out.println("Koordinaten: " + quake.getCords());
-                System.out.println("Tiefe: " + quake.getDepth());
-                System.out.println("Distanz: " + quake.getDistance());
-                assertNotNull(quake.getDist());
-                for (String abstand : quake.getDist()) {
-                    System.out.println("Entfernung: " + abstand);
-                    assertNotNull(abstand);
-                }
-                System.out.println("---------------------------");
-                assertNotNull(quake.getMag());
-                assertNotNull(quake.getRegion());
-                assertNotNull(quake.getOrt());
-                assertNotNull(quake.getDate());
-                assertNotNull(quake.getTime());
-                assertNotNull(quake.getCords());
-                assertNotNull(quake.getDepth());
-                assertNotNull(quake.getDistance());
+        tmp = jp.getjObj().getJSONArray("features");
+        for (int i = 0; i < tmp.length(); i++) {
+            Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
+            System.out.println("Magnitude: " + quake.getMag());
+            System.out.println("Region: " + quake.getRegion());
+            System.out.println("Ort: " + quake.getOrt());
+            System.out.println("Datum: " + quake.getDate());
+            System.out.println("Zeit: " + quake.getTime());
+            System.out.println("Koordinaten: " + quake.getCords());
+            System.out.println("Tiefe: " + quake.getDepth());
+            System.out.println("Distanz: " + quake.getDistance());
+            assertNotNull(quake.getDist());
+            for (String abstand : quake.getDist()) {
+                System.out.println("Entfernung: " + abstand);
+                assertNotNull(abstand);
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
+            System.out.println("---------------------------");
+            assertNotNull(quake.getMag());
+            assertNotNull(quake.getRegion());
+            assertNotNull(quake.getOrt());
+            assertNotNull(quake.getDate());
+            assertNotNull(quake.getTime());
+            assertNotNull(quake.getCords());
+            assertNotNull(quake.getDepth());
+            assertNotNull(quake.getDistance());
         }
     }
 
     /**
      * test if the data could be interpreted.
      */
-    public void testWorld() {
+    public void testWorld() throws JSONException {
         jp = new JSONLoader(JSONLoader.WORLD);
         JSONArray tmp;
-        try {
-            tmp = jp.getjObj().getJSONArray("features");
-            for (int i = 0; i < tmp.length(); i++) {
-                Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
-                System.out.println("Magnitude: " + quake.getMag());
-                System.out.println("Region: " + quake.getRegion());
-                System.out.println("Ort: " + quake.getOrt());
-                System.out.println("Datum: " + quake.getDate());
-                System.out.println("Zeit: " + quake.getTime());
-                System.out.println("Koordinaten: " + quake.getCords());
-                System.out.println("Tiefe: " + quake.getDepth());
-                System.out.println("Distanz: " + quake.getDistance());
-                assertNotNull(quake.getDist());
-                for (String abstand : quake.getDist()) {
-                    System.out.println("Entfernung: " + abstand);
-                    assertNotNull(abstand);
-                }
-                System.out.println("---------------------------");
-                assertNotNull(quake.getMag());
-                assertNotNull(quake.getRegion());
-                assertNotNull(quake.getOrt());
-                assertNotNull(quake.getDate());
-                assertNotNull(quake.getTime());
-                assertNotNull(quake.getCords());
-                assertNotNull(quake.getDepth());
-                assertNotNull(quake.getDistance());
+        tmp = jp.getjObj().getJSONArray("features");
+        for (int i = 0; i < tmp.length(); i++) {
+            Erdbeben quake = new Erdbeben(tmp.getJSONObject(i), fake);
+            System.out.println("Magnitude: " + quake.getMag());
+            System.out.println("Region: " + quake.getRegion());
+            System.out.println("Ort: " + quake.getOrt());
+            System.out.println("Datum: " + quake.getDate());
+            System.out.println("Zeit: " + quake.getTime());
+            System.out.println("Koordinaten: " + quake.getCords());
+            System.out.println("Tiefe: " + quake.getDepth());
+            System.out.println("Distanz: " + quake.getDistance());
+            assertNotNull(quake.getDist());
+            for (String abstand : quake.getDist()) {
+                System.out.println("Entfernung: " + abstand);
+                assertNotNull(abstand);
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
-            e.printStackTrace();
+            System.out.println("---------------------------");
+            assertNotNull(quake.getMag());
+            assertNotNull(quake.getRegion());
+            assertNotNull(quake.getOrt());
+            assertNotNull(quake.getDate());
+            assertNotNull(quake.getTime());
+            assertNotNull(quake.getCords());
+            assertNotNull(quake.getDepth());
+            assertNotNull(quake.getDistance());
         }
     }
 
     /**
      * tests if the distance could be refreshed.
      */
-    public void testRefreshDistance() {
+    public void testRefreshDistance() throws JSONException {
         jp = new JSONLoader(JSONLoader.AT);
         JSONArray tmp;
-        try {
-            tmp = jp.getjObj().getJSONArray("features");
-            Erdbeben quake = new Erdbeben(tmp.getJSONObject(0), fake);
-            String before = quake.getDistance();
-            Location newLoc = new Location("alsoFake");
-            newLoc.setLongitude(32);
-            newLoc.setLatitude(-12);
-            quake.refreshDistanceFromQuake(newLoc);
-            String after = quake.getDistance();
-            assertThat(before, not(equalTo(after)));
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
-        }
+        tmp = jp.getjObj().getJSONArray("features");
+        Erdbeben quake = new Erdbeben(tmp.getJSONObject(0), fake);
+        String before = quake.getDistance();
+        Location newLoc = new Location("alsoFake");
+        newLoc.setLongitude(32);
+        newLoc.setLatitude(-12);
+        quake.refreshDistanceFromQuake(newLoc);
+        String after = quake.getDistance();
+        assertThat(before, not(equalTo(after)));
     }
 
     /**
      * tests if the distance is null when the current location is also null.
      */
-    public void testNullDistance() {
+    public void testNullDistance() throws JSONException {
         jp = new JSONLoader(JSONLoader.AT);
         JSONArray tmp;
-        try {
-            tmp = jp.getjObj().getJSONArray("features");
-            Erdbeben quake = new Erdbeben(tmp.getJSONObject(0), null);
-            assertNull(quake.getDistance());
-        } catch (JSONException e) {
-            Log.e(TAG, "Couldn't interpret the data: " + e.toString());
-        }
+        tmp = jp.getjObj().getJSONArray("features");
+        Erdbeben quake = new Erdbeben(tmp.getJSONObject(0), null);
+        assertNull(quake.getDistance());
     }
 }

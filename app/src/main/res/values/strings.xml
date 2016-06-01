@@ -43,4 +43,5 @@
     <string name="contact">Kontaktdaten</string>
     <string name="zamg_mail_address">seismo@zamg.ac.at</string>
     <string name="mail_info">Bitte schicken Sie Fotos von eventuellen Schäden an:</string>
+    <string name="referenz_hint">Möglicherweise wurde das von Ihnen verspürte Erdbeben bereits registriert. Bitte wählen Sie ein Referenzbeben, falls Sie glauben eines dieser verspürt zu haben.</string>
 </resources>

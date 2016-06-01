@@ -40,7 +40,7 @@
 
         <activity
             android:name=".ReferenzBeben"
-            android:label="Eines dieser Beben verspührt?"
+            android:label="Referenzbeben wählen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
