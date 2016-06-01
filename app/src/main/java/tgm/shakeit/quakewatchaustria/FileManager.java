@@ -22,7 +22,7 @@ class FileManager<T> {
     public static final String WORLD_FILE = "world.ser";
     public static final String API_KEY_FILE = "key.ser";
     public static final String REPORT_QUEUE_FILE = "queue.ser";
-    public static final String LATEST_FILE = "latest.ser";
+//    public static final String LATEST_FILE = "latest.ser";
 
     private static final String TAG = "FileManager.java";
 

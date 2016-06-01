@@ -1,57 +1,48 @@
 package tgm.shakeit.quakewatchaustria;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
- * Created by Moritz
+ * Activity that shows additional questions depending on the strength.
+ *
+ * @author Moirtz Mühlehner
+ * @version 2016-06-01.1
  */
-public class ZusatzFragen extends AppCompatActivity{
+public class ZusatzFragen extends AppCompatActivity {
 
+    private static TextView sbvalue;
     private int staerke;
-    private static TextView tv2,tv3,tv4,sbvalue,tv5;
-    private Switch sw1,sw2,sw3;
-    private CheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7;
-    private FloatingActionButton next;
+    private Switch sw1, sw2, sw3;
+    private CheckBox cb1, cb2, cb3, cb4, cb5, cb6, cb7;
     private LinearLayout layout;
     private SeekBar sb;
     private EditText et;
 
 
-
+    /**
+     * Gets called on create
+     *
+     * @param savedInstanceState the saved instance state
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zusatzfragen);
-        tv2 = (TextView) findViewById(R.id.textView);
-        tv3 = (TextView) findViewById(R.id.textView2);
-        tv4 = (TextView) findViewById(R.id.textView3);
-        tv5 = (TextView) findViewById(R.id.textView4);
+        TextView tv2 = (TextView) findViewById(R.id.textView);
+        TextView tv3 = (TextView) findViewById(R.id.textView2);
+        TextView tv4 = (TextView) findViewById(R.id.textView3);
+        TextView tv5 = (TextView) findViewById(R.id.textView4);
         et = (EditText) findViewById(R.id.editText);
         sw1 = (Switch) findViewById(R.id.switch1);
         sw2 = (Switch) findViewById(R.id.switch3);
@@ -68,23 +59,36 @@ public class ZusatzFragen extends AppCompatActivity{
         sb.incrementProgressBy(1);
         sb.setMax(4);
         sbvalue = (TextView) findViewById(R.id.textView5);
-        sbvalue.setText(""+sb.getProgress());
-        next = (FloatingActionButton) findViewById(R.id.next);
-        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-
+        sbvalue.setText("" + sb.getProgress());
+        FloatingActionButton next = (FloatingActionButton) findViewById(R.id.next);
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * Gets called when the progress changes
+             * @param seekBar the seekbar
+             * @param progress the progress
+             * @param fromUser fromUser
+             */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(progress==sb.getMax())
+                if (progress == sb.getMax())
                     sbvalue.setText("4 oder höher");
                 else
                     sbvalue.setText(String.valueOf(progress));
             }
 
+            /**
+             * Gets called on start tracking touch
+             * @param seekBar the seekbar
+             */
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
+            /**
+             * Gets called on stop tracking touch
+             * @param seekBar the seekbar
+             */
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -176,9 +180,13 @@ public class ZusatzFragen extends AppCompatActivity{
 
         }
         sw3.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Handels on click
+             * @param v the view
+             */
             @Override
             public void onClick(View v) {
-                if(staerke>3) {
+                if (staerke > 3) {
                     if (sw3.isChecked()) {
                         layout.setVisibility(View.VISIBLE);
                     } else {
@@ -188,61 +196,65 @@ public class ZusatzFragen extends AppCompatActivity{
             }
         });
         next.setOnClickListener(new FloatingActionButton.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int floor = sb.getProgress();
-            if(floor<4)
-                Report.setFloor(floor);
-            else
-            Report.setFloor(4);
-            switch (staerke) {
-                case 3:
-                    Report.addZusatz(1,sw1.isChecked());
-                    Report.addZusatz(2,sw2.isChecked());
-                    Report.addZusatz(3,sw3.isChecked());
-                    Report.addZusatz(et.getText().toString());
-                case 4:
-                    Report.addZusatz(2,sw1.isChecked());
-                    Report.addZusatz(7,sw2.isChecked());
-                    Report.addZusatz(8,cb1.isChecked());
-                    Report.addZusatz(9,cb2.isChecked());
-                    Report.addZusatz(10,cb3.isChecked());
-                    Report.addZusatz(11,cb4.isChecked());
-                    Report.addZusatz(12,cb5.isChecked());
-                    Report.addZusatz(13,cb6.isChecked());
-                    Report.addZusatz(14,cb7.isChecked());
-                    Report.addZusatz(et.getText().toString());
+            /**
+             * Handles clicks
+             * @param v the view that is clicked on
+             */
+            @Override
+            public void onClick(View v) {
+                int floor = sb.getProgress();
+                if (floor < 4)
+                    Report.setFloor(floor);
+                else
+                    Report.setFloor(4);
+                switch (staerke) {
+                    case 3:
+                        Report.addZusatz(1, sw1.isChecked());
+                        Report.addZusatz(2, sw2.isChecked());
+                        Report.addZusatz(3, sw3.isChecked());
+                        Report.addZusatz(et.getText().toString());
+                    case 4:
+                        Report.addZusatz(2, sw1.isChecked());
+                        Report.addZusatz(7, sw2.isChecked());
+                        Report.addZusatz(8, cb1.isChecked());
+                        Report.addZusatz(9, cb2.isChecked());
+                        Report.addZusatz(10, cb3.isChecked());
+                        Report.addZusatz(11, cb4.isChecked());
+                        Report.addZusatz(12, cb5.isChecked());
+                        Report.addZusatz(13, cb6.isChecked());
+                        Report.addZusatz(14, cb7.isChecked());
+                        Report.addZusatz(et.getText().toString());
 
-                case 5:
-                    Report.addZusatz(4,sw1.isChecked());
-                    Report.addZusatz(5,sw2.isChecked());
-                    Report.addZusatz(7,sw3.isChecked());
-                    Report.addZusatz(8,cb1.isChecked());
-                    Report.addZusatz(9,cb2.isChecked());
-                    Report.addZusatz(10,cb3.isChecked());
-                    Report.addZusatz(11,cb4.isChecked());
-                    Report.addZusatz(12,cb5.isChecked());
-                    Report.addZusatz(13,cb6.isChecked());
-                    Report.addZusatz(14,cb7.isChecked());
-                    Report.addZusatz(et.getText().toString());
+                    case 5:
+                        Report.addZusatz(4, sw1.isChecked());
+                        Report.addZusatz(5, sw2.isChecked());
+                        Report.addZusatz(7, sw3.isChecked());
+                        Report.addZusatz(8, cb1.isChecked());
+                        Report.addZusatz(9, cb2.isChecked());
+                        Report.addZusatz(10, cb3.isChecked());
+                        Report.addZusatz(11, cb4.isChecked());
+                        Report.addZusatz(12, cb5.isChecked());
+                        Report.addZusatz(13, cb6.isChecked());
+                        Report.addZusatz(14, cb7.isChecked());
+                        Report.addZusatz(et.getText().toString());
 
-                case 6:
-                    Report.addZusatz(6,sw1.isChecked());
-                    Report.addZusatz(7,sw3.isChecked());
-                    Report.addZusatz(8,cb1.isChecked());
-                    Report.addZusatz(9,cb2.isChecked());
-                    Report.addZusatz(10,cb3.isChecked());
-                    Report.addZusatz(11,cb4.isChecked());
-                    Report.addZusatz(12,cb5.isChecked());
-                    Report.addZusatz(13,cb6.isChecked());
-                    Report.addZusatz(14,cb7.isChecked());
-                    Report.addZusatz(et.getText().toString());
+                    case 6:
+                        Report.addZusatz(6, sw1.isChecked());
+                        Report.addZusatz(7, sw3.isChecked());
+                        Report.addZusatz(8, cb1.isChecked());
+                        Report.addZusatz(9, cb2.isChecked());
+                        Report.addZusatz(10, cb3.isChecked());
+                        Report.addZusatz(11, cb4.isChecked());
+                        Report.addZusatz(12, cb5.isChecked());
+                        Report.addZusatz(13, cb6.isChecked());
+                        Report.addZusatz(14, cb7.isChecked());
+                        Report.addZusatz(et.getText().toString());
+                }
+                Intent i = new Intent(getApplicationContext(), ContactPage.class);
+                startActivity(i);
+
             }
-            Intent i = new Intent(getApplicationContext(), ContactPage.class);
-            startActivity(i);
-
-        }
-    });
+        });
 
     }
 }

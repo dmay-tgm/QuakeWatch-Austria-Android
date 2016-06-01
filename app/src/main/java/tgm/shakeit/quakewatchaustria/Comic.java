@@ -7,7 +7,6 @@ package tgm.shakeit.quakewatchaustria;
  * @version 2016-06-01
  */
 class Comic {
-    private static final String TAG = "Comic.java";
     private final String title;
     private final String detail;
     private final int icon;

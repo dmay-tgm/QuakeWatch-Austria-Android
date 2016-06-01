@@ -48,5 +48,4 @@
     <string name="tgm_logo">TGM Logo</string>
     <string name="zamg_logo">ZAMG Logo</string>
     <string name="quakewatch_austria_logo">QuakeWatch Austria Logo</string>
-    <string name="distance_from_phone0">%s von Ihrem Standort</string>
 </resources>

@@ -21,7 +21,6 @@ import static org.junit.Assert.assertThat;
  * @version 2016-05-11.1
  */
 public class ErdbebenTest extends AndroidTestCase {
-    private static final String TAG = "JSONLoader.java";
     private JSONLoader jp;
     private Location fake;
 

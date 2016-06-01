@@ -432,7 +432,7 @@ public class QuakeLists extends Fragment implements GoogleApiClient.ConnectionCa
                 tabLayout.setupWithViewPager(viewPager);
             }
             else{
-                Toast.makeText(getContext(),"Erdbeben konnten nicht geladen werden",Toast.LENGTH_LONG);
+                Toast.makeText(getContext(),"Erdbeben konnten nicht geladen werden",Toast.LENGTH_LONG).show();
             }
         }
     }
