@@ -106,9 +106,7 @@ public class DetailPage extends AppCompatActivity implements Serializable, OnMap
         TextView dist3 = (TextView) findViewById(R.id.textViewDist3);
         TextView dist4 = (TextView) findViewById(R.id.textViewDist4);
         if (dist4 != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(data.getDistance()).append(" von Ihrem Standort");
-            dist4.setText(sb.toString());
+            dist4.setText(data.getDistance());
         }
         ArrayList<String> dists = data.getDist();
         if (dist1 != null)

@@ -3,16 +3,18 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:weightSum="1">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -21,11 +23,25 @@
                 android:id="@+id/textViewStock"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_below="@+id/textView4"
-                android:layout_alignLeft="@+id/textView4"
-                android:layout_alignStart="@+id/textView4"
                 android:layout_marginTop="10dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <SeekBar
+                    android:layout_width="204dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar"
+                    android:indeterminate="false"
+                    android:max="5"
+                    android:splitTrack="true" />
 
+                <TextView
+                    android:layout_width="88dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"
+                    android:text="0" />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,18 +49,12 @@
                 android:id="@+id/textView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="32dp"
-                android:layout_below="@+id/textViewStock"
-                android:layout_alignLeft="@+id/textViewStock"
-                android:layout_alignStart="@+id/textViewStock" />
+                android:layout_marginTop="10dp" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch1"
-                android:layout_below="@+id/textView"
-                android:layout_alignLeft="@+id/textView"
-                android:layout_alignStart="@+id/textView" />
+                android:id="@+id/switch1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,18 +62,12 @@
                 android:text="Sind Sie aus Angst ins Freie geflüchtet?"
                 android:id="@+id/textView2"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_below="@+id/switch1"
-                android:layout_alignLeft="@+id/switch1"
-                android:layout_alignStart="@+id/switch1" />
+                android:textStyle="bold" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch3"
-                android:layout_below="@+id/textView2"
-                android:layout_alignLeft="@+id/textView2"
-                android:layout_alignStart="@+id/textView2" />
+                android:id="@+id/switch3" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,54 +75,19 @@
                 android:text="Haben Sie Gebäudeschäden beobachtet?"
                 android:id="@+id/textView3"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_below="@+id/switch3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="15dp" />
+                android:textStyle="bold" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch2"
-                android:layout_below="@+id/textView3"
-                android:layout_alignLeft="@+id/textView3"
-                android:layout_alignStart="@+id/textView3" />
+                android:id="@+id/switch2" />
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/ic_arrow_forward_white_24dp"
-                fab:fab_colorNormal="@color/colorAccent"
-                fab:fab_colorPressed="@color/colorAccentPressed"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bitte nehmen Sie sich Zeit, die Zusatzfragen ordentlich zu beantworten."
-                android:id="@+id/textView4"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignRight="@+id/textView3"
-                android:layout_alignEnd="@+id/textView3" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/linearLayout"
-                android:layout_below="@+id/switch2"
-                android:layout_alignLeft="@+id/switch2"
-                android:layout_alignStart="@+id/switch2"
-                android:layout_alignRight="@+id/textView5"
-                android:layout_alignEnd="@+id/textView5">
+                android:layout_height="227dp"
+                android:id="@+id/linearLayout">
 
                 <CheckBox
                     android:layout_width="wrap_content"
@@ -168,29 +137,33 @@
                     android:text="Einsturz von Zwischenwänden"
                     android:id="@+id/checkBox7"
                     android:checked="false" />
+
             </LinearLayout>
-            <SeekBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/seekBar"
-                android:layout_below="@+id/textViewStock"
-                android:layout_alignLeft="@+id/textViewStock"
-                android:layout_alignStart="@+id/textViewStock"
-                android:layout_alignRight="@+id/textViewStock"
-                android:layout_alignEnd="@+id/textViewStock"
-                android:indeterminate="false"
-                android:max="5"
-                android:splitTrack="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:id="@+id/textView5"
-                android:textSize="16dp"
-                android:layout_alignTop="@+id/seekBar"
-                android:layout_toRightOf="@+id/seekBar"
-                android:layout_toEndOf="@+id/seekBar" />
+                android:text="Bitte beschreiben Sie Ihre Wahrnehmung und eventuelle Schäden"
+                android:id="@+id/textView4"
+                android:paddingRight="15dp"
+                android:textStyle="bold"
+                android:textSize="16dp" />
 
-        </RelativeLayout>
+            <EditText
+                android:layout_width="289dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText" />
+
+        </LinearLayout>
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_icon="@drawable/ic_arrow_forward_white_24dp"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="@color/colorAccentPressed"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end" />
 </android.support.design.widget.CoordinatorLayout>

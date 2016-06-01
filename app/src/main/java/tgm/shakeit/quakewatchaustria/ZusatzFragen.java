@@ -3,6 +3,7 @@ package tgm.shakeit.quakewatchaustria;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -31,12 +33,13 @@ import java.util.ArrayList;
 public class ZusatzFragen extends AppCompatActivity{
 
     private int staerke;
-    private static TextView tv2,tv3,tv4,sbvalue;
+    private static TextView tv2,tv3,tv4,sbvalue,tv5;
     private Switch sw1,sw2,sw3;
     private CheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7;
     private FloatingActionButton next;
     private LinearLayout layout;
     private SeekBar sb;
+    private EditText et;
 
 
 
@@ -48,6 +51,8 @@ public class ZusatzFragen extends AppCompatActivity{
         tv2 = (TextView) findViewById(R.id.textView);
         tv3 = (TextView) findViewById(R.id.textView2);
         tv4 = (TextView) findViewById(R.id.textView3);
+        tv5 = (TextView) findViewById(R.id.textView4);
+        et = (EditText) findViewById(R.id.editText);
         sw1 = (Switch) findViewById(R.id.switch1);
         sw2 = (Switch) findViewById(R.id.switch3);
         sw3 = (Switch) findViewById(R.id.switch2);
@@ -95,6 +100,9 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw2.setVisibility(View.GONE);
                 sw3.setVisibility(View.GONE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.GONE);
+                et.setVisibility(View.GONE);
+                break;
 
             case 2:
                 tv2.setVisibility(View.GONE);
@@ -104,6 +112,9 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw2.setVisibility(View.GONE);
                 sw3.setVisibility(View.GONE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.GONE);
+                et.setVisibility(View.GONE);
+                break;
 
             case 3:
                 tv2.setVisibility(View.VISIBLE);
@@ -116,18 +127,23 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.VISIBLE);
+                et.setVisibility(View.VISIBLE);
+                break;
 
             case 4:
-                tv2.setVisibility(View.VISIBLE);
-                tv2.setText("Sind Gegenstände umgefallen?");
+                tv2.setVisibility(View.GONE);
                 tv3.setVisibility(View.VISIBLE);
                 tv3.setText("Sind Sie aus Angst ins Freie geflüchtet?");
                 tv4.setVisibility(View.VISIBLE);
                 tv4.setText("Haben Sie Gebäudeschäden beobachtet?");
-                sw1.setVisibility(View.VISIBLE);
+                sw1.setVisibility(View.GONE);
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.VISIBLE);
+                et.setVisibility(View.VISIBLE);
+                break;
 
             case 5:
                 tv2.setVisibility(View.VISIBLE);
@@ -140,29 +156,34 @@ public class ZusatzFragen extends AppCompatActivity{
                 sw2.setVisibility(View.VISIBLE);
                 sw3.setVisibility(View.VISIBLE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.VISIBLE);
+                et.setVisibility(View.VISIBLE);
+                break;
 
             case 6:
                 tv2.setVisibility(View.VISIBLE);
                 tv2.setText("Sind Möbel umgekippt?");
-                tv3.setVisibility(View.VISIBLE);
-                tv3.setText("Sind viele Gegenstände aus den Regalen gefallen?");
+                tv3.setVisibility(View.GONE);
                 tv4.setVisibility(View.VISIBLE);
                 tv4.setText("Haben Sie Gebäudeschäden beobachtet?");
                 sw1.setVisibility(View.VISIBLE);
-                sw2.setVisibility(View.VISIBLE);
+                sw2.setVisibility(View.GONE);
                 sw3.setVisibility(View.VISIBLE);
                 layout.setVisibility(View.GONE);
+                tv5.setVisibility(View.VISIBLE);
+                et.setVisibility(View.VISIBLE);
+                break;
 
         }
         sw3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sw3.isChecked()){
-                    layout.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    layout.setVisibility(View.GONE);
+                if(staerke>3) {
+                    if (sw3.isChecked()) {
+                        layout.setVisibility(View.VISIBLE);
+                    } else {
+                        layout.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -179,6 +200,7 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(1,sw1.isChecked());
                     Report.addZusatz(2,sw2.isChecked());
                     Report.addZusatz(3,sw3.isChecked());
+                    Report.addZusatz(et.getText().toString());
                 case 4:
                     Report.addZusatz(2,sw1.isChecked());
                     Report.addZusatz(7,sw2.isChecked());
@@ -189,6 +211,7 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(12,cb5.isChecked());
                     Report.addZusatz(13,cb6.isChecked());
                     Report.addZusatz(14,cb7.isChecked());
+                    Report.addZusatz(et.getText().toString());
 
                 case 5:
                     Report.addZusatz(4,sw1.isChecked());
@@ -201,6 +224,7 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(12,cb5.isChecked());
                     Report.addZusatz(13,cb6.isChecked());
                     Report.addZusatz(14,cb7.isChecked());
+                    Report.addZusatz(et.getText().toString());
 
                 case 6:
                     Report.addZusatz(6,sw1.isChecked());
@@ -212,6 +236,7 @@ public class ZusatzFragen extends AppCompatActivity{
                     Report.addZusatz(12,cb5.isChecked());
                     Report.addZusatz(13,cb6.isChecked());
                     Report.addZusatz(14,cb7.isChecked());
+                    Report.addZusatz(et.getText().toString());
             }
             Intent i = new Intent(getApplicationContext(), ContactPage.class);
             startActivity(i);
