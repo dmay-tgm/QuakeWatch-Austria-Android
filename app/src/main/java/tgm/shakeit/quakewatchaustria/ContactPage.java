@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
 /**
  * Activity that displays input fields for comments and contact.
  *
@@ -84,7 +86,9 @@ public class ContactPage extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             js = new JSONSender(getBaseContext());
-            js.addToQueue(Report.toJSON().toString(), getBaseContext());
+            JSONObject toSend = Report.toJSON();
+            if (toSend != null)
+                js.addToQueue(toSend.toString(), getBaseContext());
             js.sendQueued(getBaseContext());
             return null;
         }

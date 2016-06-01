@@ -15,7 +15,7 @@ import android.widget.TextView;
  * @author Daniel May
  * @version 2016-06-01.1
  */
-public class ComicArrayAdapter extends ArrayAdapter<Comic> {
+class ComicArrayAdapter extends ArrayAdapter<Comic> {
 
     private final Context context;
     private final int layoutResourceId;
@@ -23,14 +23,12 @@ public class ComicArrayAdapter extends ArrayAdapter<Comic> {
 
     /**
      * Initiates the adapter and saves the provided parameters
-     *
-     * @param context          Application Context
-     * @param layoutResourceId resource id of the layout
+     *  @param context          Application Context
      * @param data             the comic array
      */
-    public ComicArrayAdapter(Context context, int layoutResourceId, Comic[] data) {
-        super(context, layoutResourceId, data);
-        this.layoutResourceId = layoutResourceId;
+    public ComicArrayAdapter(Context context, Comic[] data) {
+        super(context, R.layout.custom_comic_row, data);
+        this.layoutResourceId = R.layout.custom_comic_row;
         this.context = context;
         this.data = data;
     }

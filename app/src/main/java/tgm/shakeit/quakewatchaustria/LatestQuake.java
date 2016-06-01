@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author Daniel May
  * @version 2016-05-31.1
  */
-public class LatestQuake implements Serializable {
+class LatestQuake implements Serializable {
     private static final String TAG = "LatestQuake.java";
     private double latitude, longitude;
     private String id, time;
@@ -36,7 +36,6 @@ public class LatestQuake implements Serializable {
             JSONArray coordinates = toParse.getJSONObject("geometry").getJSONArray("coordinates");
             latitude = coordinates.getDouble(0);
             longitude = coordinates.getDouble(1);
-
             JSONObject properties = toParse.getJSONObject("properties");
             //Parse ISO8601 String to a DateTime object with the user's local timezone
             DateTime date = ISODateTimeFormat.dateTimeParser().withOffsetParsed().parseDateTime(properties.getString("time")).withZone(DateTimeZone.getDefault());

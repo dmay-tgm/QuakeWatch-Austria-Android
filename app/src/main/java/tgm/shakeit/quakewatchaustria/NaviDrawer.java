@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -21,14 +20,24 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+/**
+ * Main activity that uses a navigation drawer to display different fragments.
+ *
+ * @author Daniel May, Moritz Mühlehner
+ * @version 2016-06-01.1
+ */
 public class NaviDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private WebView webView;
     private NavigationView navigationView;
     private QuakeLists ql;
-    private FloatingActionButton quakeBefore;
 
+    /**
+     * Gets called on creating the activity
+     *
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +72,7 @@ public class NaviDrawer extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         JodaTimeAndroid.init(this);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.quake_list));
-        quakeBefore = (FloatingActionButton) findViewById(R.id.quake_before);
+        FloatingActionButton quakeBefore = (FloatingActionButton) findViewById(R.id.quake_before);
         if (quakeBefore != null)
             quakeBefore.setOnClickListener(ql);
     }
@@ -80,18 +89,6 @@ public class NaviDrawer extends AppCompatActivity
             else
                 super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navi_drawer, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -132,15 +129,14 @@ public class NaviDrawer extends AppCompatActivity
 
         getSupportFragmentManager().executePendingTransactions();
 
-
         Fragment f = getSupportFragmentManager().findFragmentByTag("content_frag");
         if (f != null) {
             View v = f.getView();
             if (v != null) {
                 WebView web = (WebView) v.findViewById(R.id.webView);
-                if (web != null) {
+                if (web != null)
                     webView = web;
-                } else
+                else
                     webView = null;
             } else
                 webView = null;
@@ -149,6 +145,13 @@ public class NaviDrawer extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Gets called when a key is presses
+     *
+     * @param keyCode the key code
+     * @param event   the key event
+     * @return true
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webView != null && webView.canGoBack()) {
@@ -156,23 +159,30 @@ public class NaviDrawer extends AppCompatActivity
             webView.goBack();
             // go back to previous page
             return true;
-        } else {
+        } else
             finish();
-            // finish the activity
-        }
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Gets called on resume
+     */
     @Override
     public void onResume() {
         super.onResume();
     }
 
+    /**
+     * Gets called on start
+     */
     @Override
     public void onStart() {
         super.onStart();
     }
 
+    /**
+     * Gets called on stop
+     */
     @Override
     public void onStop() {
         super.onStop();

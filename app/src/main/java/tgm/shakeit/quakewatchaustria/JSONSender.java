@@ -23,7 +23,7 @@ import java.util.LinkedList;
  * @author Daniel May
  * @version 2016-05-23.1
  */
-public class JSONSender {
+class JSONSender {
     private static final String API_URL = "http://geoweb.zamg.ac.at/quakeapi/v02/getapikey";
     private static final String SEND_URL = "http://geoweb.zamg.ac.at/quakeapi/v02/message";
     private static final String TAG = "JSONSender.java";

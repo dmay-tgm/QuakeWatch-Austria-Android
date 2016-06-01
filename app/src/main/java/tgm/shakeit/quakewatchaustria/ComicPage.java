@@ -37,7 +37,7 @@ public class ComicPage extends AppCompatActivity {
                 };
 
         ComicArrayAdapter adapter = new ComicArrayAdapter(this,
-                R.layout.custom_comic_row, weather_data);
+                weather_data);
 
 
         ListView comicList = (ListView) findViewById(R.id.comicList);

@@ -22,7 +22,7 @@ import java.util.List;
  * @author Moritz Mühlehner
  * @version 2016-06-01.1
  */
-public class CustomArrayAdapter extends ArrayAdapter<Erdbeben> {
+class CustomArrayAdapter extends ArrayAdapter<Erdbeben> {
 
     private final static String[] colorCodes = {
             //Green

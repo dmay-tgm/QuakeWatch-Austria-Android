@@ -1,7 +1,6 @@
 package tgm.shakeit.quakewatchaustria;
 
 import android.location.Location;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.joda.time.DateTime;
@@ -18,7 +17,7 @@ import java.text.DecimalFormatSymbols;
  * @author Daniel May
  * @version 2016-05-23.1
  */
-public class Report {
+class Report {
     private static final String TAG = "Report.java";
     private static JSONObject addquestions = new JSONObject();
     private static String referenzID, locLon, locLat, locPrecision, locLastUpdate, mlocPLZ, mlocOrtsname, verspuert, kommentar, kontakt;
@@ -198,7 +197,6 @@ public class Report {
      *
      * @return the JSON Object to send to the ZAMG
      */
-    @NonNull
     public static JSONObject toJSON() {
         JSONObject result = new JSONObject();
         try {

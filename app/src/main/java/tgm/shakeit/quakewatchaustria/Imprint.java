@@ -11,12 +11,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by Daniel on 28.05.2016.
+ * Fragment that displays an imprint with details about the developers and the ZAMG.
  */
 public class Imprint extends Fragment {
-    public Imprint() {
-    }
 
+    /**
+     * Gets called when the view is created
+     *
+     * @param inflater           the layout inflater
+     * @param container          the container, containing the fragment
+     * @param savedInstanceState the saved instance state
+     * @return the fragment's view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

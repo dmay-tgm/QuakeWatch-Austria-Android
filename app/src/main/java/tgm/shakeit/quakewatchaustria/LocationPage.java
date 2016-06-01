@@ -212,10 +212,26 @@ public class LocationPage extends AppCompatActivity {
             this.view = view;
         }
 
+        /**
+         * Gets called before that text has changed
+         *
+         * @param charSequence the charsequence
+         * @param i            the i
+         * @param i1           the i1
+         * @param i2           the i2
+         */
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
 
+        /***
+         * Gets called while the text is changing
+         *
+         * @param charSequence the charsequence
+         * @param i            the i
+         * @param i1           the i1
+         * @param i2           the i2
+         */
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
@@ -233,6 +249,7 @@ public class LocationPage extends AppCompatActivity {
                     break;
                 case R.id.input_loc:
                     validateLoc();
+                    break;
             }
         }
     }
