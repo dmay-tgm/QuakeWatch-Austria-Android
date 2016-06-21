@@ -132,7 +132,7 @@ class Erdbeben implements Serializable {
             double tmp = phone.distanceTo(epicentre);
             tmp /= 1000.0;
             DecimalFormat distFormat = new DecimalFormat(",##0.0", decimalSymbol);
-            distance = distFormat.format(tmp) + " km";
+            distance = distFormat.format(tmp) + " km von Ihrem Standort";
         }
     }
 
