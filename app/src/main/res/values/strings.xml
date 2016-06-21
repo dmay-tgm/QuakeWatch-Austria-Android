@@ -32,7 +32,7 @@
     <string name="strength_explain">Bitte wählen Sie die Stärke des verspürten Erdbebens anhand folgender Comics aus:</string>
     <string name="loc_hint">Bitte füllen Sie folgende Detailinformationen aus, damit Ihre Meldung sinnvoll verarbeitet werden kann.</string>
     <string name="plz">Postleitzahl</string>
-    <string name="town">Ortsname</string>
+    <string name="town">Ort</string>
     <string name="date">Datum</string>
     <string name="time">Uhrzeit</string>
     <string name="last_page_hint">Hier können Sie einen Kommentar zu dem verspürten Erdbeben abgeben und wenn nötig, Ihre Kontaktdaten angeben.</string>
@@ -49,4 +49,5 @@
     <string name="zamg_logo">ZAMG Logo</string>
     <string name="quakewatch_austria_logo">QuakeWatch Austria Logo</string>
     <string name="distance_from_phone0">%s von Ihrem Standort</string>
+    <string name="street">Straße</string>
 </resources>
