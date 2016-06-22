@@ -100,7 +100,7 @@ class CustomArrayAdapter extends ArrayAdapter<Erdbeben> {
 //            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
             holder.time = (TextView) convertView.findViewById(R.id.textViewTime);
             holder.date = (TextView) convertView.findViewById(R.id.textViewDatum);
-            holder.ort = (TextView) convertView.findViewById(R.id.textViewOrt);
+            holder.ort = (TextView) convertView.findViewById(R.id.textViewLocation);
             convertView.setTag(holder);
         } else
         /*
@@ -121,14 +121,14 @@ class CustomArrayAdapter extends ArrayAdapter<Erdbeben> {
         holder.date.setText(temp.getDate());
         holder.time.setText(temp.getTime());
         if (temp.getOrt() != null && !temp.getOrt().equals("")) {
-            holder.region = (TextView) convertView.findViewById(R.id.textViewLocation);
+            holder.region = (TextView) convertView.findViewById(R.id.textViewOrt);
             holder.region.setText(temp.getRegion());
             ((TextView) convertView.findViewById(R.id.textViewLocation2)).setText("");
             holder.ort.setText(temp.getOrt());
         } else {
             holder.region = (TextView) convertView.findViewById(R.id.textViewLocation2);
             holder.region.setText(temp.getRegion());
-            ((TextView) convertView.findViewById(R.id.textViewLocation)).setText("");
+            ((TextView) convertView.findViewById(R.id.textViewOrt)).setText("");
             holder.ort.setText("");
         }
         /*

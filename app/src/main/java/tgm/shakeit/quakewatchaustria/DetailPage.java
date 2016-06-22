@@ -64,7 +64,7 @@ public class DetailPage extends AppCompatActivity implements Serializable, OnMap
         }
         vmag = (TextView) findViewById(R.id.listText);
         TextView region;
-        TextView ort = (TextView) findViewById(R.id.textViewOrt);
+        TextView ort = (TextView) findViewById(R.id.textViewLocation);
         TextView date = (TextView) findViewById(R.id.textViewDatum);
         TextView time = (TextView) findViewById(R.id.textViewTime);
         double mag = data.getMag();
@@ -77,7 +77,7 @@ public class DetailPage extends AppCompatActivity implements Serializable, OnMap
         if (time != null)
             time.setText(data.getTime());
         if (data.getOrt() != null && !data.getOrt().equals("")) {
-            region = (TextView) findViewById(R.id.textViewLocation);
+            region = (TextView) findViewById(R.id.textViewOrt);
             if (region != null)
                 region.setText(data.getRegion());
             TextView tv = (TextView) findViewById(R.id.textViewLocation2);
@@ -89,7 +89,7 @@ public class DetailPage extends AppCompatActivity implements Serializable, OnMap
             region = (TextView) findViewById(R.id.textViewLocation2);
             if (region != null)
                 region.setText(data.getRegion());
-            TextView tv = (TextView) findViewById(R.id.textViewLocation);
+            TextView tv = (TextView) findViewById(R.id.textViewOrt);
             if (tv != null)
                 tv.setText("");
             if (ort != null)
